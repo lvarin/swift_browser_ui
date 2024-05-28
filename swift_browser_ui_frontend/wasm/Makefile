@@ -4,7 +4,7 @@ upload: build/upworker.js build/upworker.wasm
 
 download: build/downworker.js build/downworker.wasm
 
-build/upworker.js: src/upinit.c src/streamingupload.c src/upcommon.c
+build/upworker.js: src/upinit.c src/streamingupload1.c src/upcommon.c
 	$(CC) $(CFLAGS) $(LDFLAGS) \
 		-fsanitize=undefined \
 		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
