@@ -10,7 +10,7 @@ module.exports = {
     },
     entry: {
         downworker: {
-            import: "./js/crypt-post-downworker.js",
+            import: "./js/crypt-post-downworker1.js",
             filename: "./build/downworker-post.js",
             chunkLoading: false,
         },

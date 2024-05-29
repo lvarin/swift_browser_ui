@@ -232,13 +232,13 @@ class StreamSlicer{
 
     let enBuffer = await enChunk.arrayBuffer();
 
-    let enData = encryptChunk(
-      this.container,
-      this.path,
-      new Uint8Array(enBuffer),
-    );
+    // let enData = encryptChunk(
+    //   this.container,
+    //   this.path,
+    //   new Uint8Array(enBuffer),
+    // );
 
-    return enData;
+    return new Uint8Array(enBuffer);
   }
 
   retryChunk(iter) {
@@ -429,7 +429,7 @@ async function addFiles(files, container) {
 
     if (checkPollutingName(file.relativePath)) return;
 
-    let path = `${file.relativePath}.c4gh`;
+    let path = `${file.relativePath}`;
     let totalBytes = Math.floor(handle.size / 65536) * 65564;
     let totalChunks = Math.floor(handle.size / 65536);
 
