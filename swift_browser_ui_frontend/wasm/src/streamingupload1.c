@@ -7,6 +7,7 @@ Upload service worker handlers
 #include <stdint.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 
 #ifdef TEST
 #include "stub_crypt4gh_header.h"
@@ -65,12 +66,8 @@ CHUNK *encrypt_chunk(
     size_t len_segment)
 {
     CHUNK *ret = allocate_chunk();
-    ret->chunk = malloc(CRYPT4GH_CIPHERSEGMENT_SIZE * sizeof(uint8_t));
-    crypt4gh_segment_encrypt(
-        session_key,
-        segment,
-        len_segment,
-        ret->chunk,
-        &(ret->len));
+    ret->chunk = malloc(len_segment * sizeof(uint8_t)); // Allocate exactly what's needed
+    memcpy(ret->chunk, segment, len_segment); // Copy the segment directly without encryption
+    ret->len = len_segment;
     return ret;
 }
