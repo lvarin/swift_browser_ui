@@ -486,7 +486,7 @@ async function beginDownloadInSession(
       });
     }
 
-    let path = file.replace(".c4gh", "");
+    let path = file;
 
     if (downloads[id].archive) {
       const size = downloads[id].files[file].size;
