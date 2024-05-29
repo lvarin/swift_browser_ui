@@ -4,7 +4,7 @@ upload: build/upworker.js build/upworker.wasm
 
 download: build/downworker.js build/downworker.wasm
 
-build/upworker.js: src/upinit.c src/streamingupload1.c src/upcommon.c
+build/upworker.js: src/upinit1.c src/streamingupload1.c src/upcommon1.c
 	$(CC) $(CFLAGS) $(LDFLAGS) \
 		-fsanitize=undefined \
 		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
@@ -29,7 +29,7 @@ build/upworker.js: src/upinit.c src/streamingupload1.c src/upcommon.c
 		--post-js build/upworker-post.js \
 		--pre-js js/crypt-pre.js
 
-build/downworker.js: src/upinit.c src/streamingdownload.c src/upcommon.c
+build/downworker.js: src/upinit1.c src/streamingdownload1.c src/upcommon1.c
 	$(CC) $(CFLAGS) $(LDFLAGS) \
 		-fsanitize=undefined \
 		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
