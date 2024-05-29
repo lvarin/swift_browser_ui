@@ -140,37 +140,37 @@ function createDownloadSessionFile(id, container, path, header, url, size) {
 }
 
 
-// Decrypt a single chunk of a download
-function decryptChunk(id, path, enChunk) {
-  let chunk = Module.ccall(
-    "decrypt_chunk",
-    "number",
-    ["number", "array", "number"],
-    [
-      downloads[id].files[path].key,
-      enChunk,
-      enChunk.length,
-    ],
-  );
-  let chunkPtr = Module.ccall(
-    "wrap_chunk_content",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  let chunkLen = Module.ccall(
-    "wrap_chunk_len",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  // Don't clone the view, as async writes can't happen in parallel.
-  // ServiceWorker download takes care of cloning as needed.
-  let ret = HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen);
-  totalDone += chunkLen;
+// // Decrypt a single chunk of a download
+// function decryptChunk(id, path, enChunk) {
+//   let chunk = Module.ccall(
+//     "decrypt_chunk",
+//     "number",
+//     ["number", "array", "number"],
+//     [
+//       downloads[id].files[path].key,
+//       enChunk,
+//       enChunk.length,
+//     ],
+//   );
+//   let chunkPtr = Module.ccall(
+//     "wrap_chunk_content",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   let chunkLen = Module.ccall(
+//     "wrap_chunk_len",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   // Don't clone the view, as async writes can't happen in parallel.
+//   // ServiceWorker download takes care of cloning as needed.
+//   let ret = HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen);
+//   totalDone += chunkLen;
 
-  return ret;
-}
+//   return ret;
+// }
 
 function startProgressInterval() {
   const interval = setInterval(() => {
@@ -332,11 +332,7 @@ class FileSlicer {
         // Write the decrypted contents directly in the file stream if
         // downloading to File System
         if (this.bytes > 0) {
-          await this.output.write(decryptChunk(
-            this.id,
-            this.path,
-            this.enChunkBuf.subarray(0, this.bytes),
-          ));
+          await this.output.write(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
         }
       } else {
         // Otherwise queue to the streamController since we're using a
@@ -345,11 +341,7 @@ class FileSlicer {
           await timeout(10);
         }
         if (this.bytes > 0) {
-          this.output.enqueue(new Uint8Array(decryptChunk(
-            this.id,
-            this.path,
-            this.enChunkBuf.subarray(0, this.bytes),
-          )));
+        this.output.enqueue(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
         }
       }
     }
