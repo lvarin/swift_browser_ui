@@ -157,44 +157,44 @@ function createUploadSessionFile(container, path) {
 }
 
 
-// Encrypt a single chunk of an upload
-function encryptChunk(container, path, deChunk) {
-  if (!uploads[container]) return undefined;
-  let chunk = Module.ccall(
-    "encrypt_chunk",
-    "number",
-    ["number", "array", "number"],
-    [
-      uploads[container].files[path].sessionkey,
-      deChunk,
-      deChunk.length,
-    ],
-  );
-  let chunkPtr = Module.ccall(
-    "wrap_chunk_content",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  let chunkLen = Module.ccall(
-    "wrap_chunk_len",
-    "number",
-    ["number"],
-    [chunk],
-  );
+// // Encrypt a single chunk of an upload
+// function encryptChunk(container, path, deChunk) {
+//   if (!uploads[container]) return undefined;
+//   let chunk = Module.ccall(
+//     "encrypt_chunk",
+//     "number",
+//     ["number", "array", "number"],
+//     [
+//       uploads[container].files[path].sessionkey,
+//       deChunk,
+//       deChunk.length,
+//     ],
+//   );
+//   let chunkPtr = Module.ccall(
+//     "wrap_chunk_content",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   let chunkLen = Module.ccall(
+//     "wrap_chunk_len",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
 
-  // As above, need a new array from view as it will get stale
-  let ret = new Uint8Array(HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen));
+//   // As above, need a new array from view as it will get stale
+//   let ret = new Uint8Array(HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen));
 
-  Module.ccall(
-    "free_chunk",
-    "number",
-    ["number"],
-    [chunk],
-  );
+//   Module.ccall(
+//     "free_chunk",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
 
-  return ret;
-}
+//   return ret;
+// }
 
 class StreamSlicer{
   constructor(
