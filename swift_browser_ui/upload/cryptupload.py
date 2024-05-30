@@ -1,7 +1,6 @@
 """Class for session crypt upload/download websocket."""
 
 import asyncio
-import base64
 import logging
 import os
 import random
@@ -101,7 +100,7 @@ class FileUpload:
             await asyncio.sleep(random.uniform(0.1, 0.2))  # nosec  # noqa: S311
         return True
 
-    async def add_header(self, header: bytes) -> None:
+    async def add_header(self) -> None:
         """Add header for the file."""
         if (
             not await self.a_create_container()
@@ -120,16 +119,16 @@ class FileUpload:
             )
             self.failed = True
 
-        b64_header = base64.standard_b64encode(header).decode("ascii")
+        # b64_header = base64.standard_b64encode(header).decode("ascii")
 
-        # Upload the header both to Vault and to Swift storage as failsafe during Vault introduction period
-        await self.vault.put_header(
-            self.name,
-            self.container,
-            self.path,
-            b64_header,
-            owner=self.owner_name,
-        )
+        # # Upload the header both to Vault and to Swift storage as failsafe during Vault introduction period
+        # await self.vault.put_header(
+        #     self.name,
+        #     self.container,
+        #     self.path,
+        #     b64_header,
+        #     owner=self.owner_name,
+        # )
 
         self.tasks = [
             asyncio.create_task(self.upload_segment(i))
@@ -413,7 +412,7 @@ class UploadSession:
             owner_name,
         )
 
-        await self.uploads[container][path].add_header(bytes(msg["data"]))
+        await self.uploads[container][path].add_header()
 
     async def handle_upload_chunk(self, msg: typing.Dict[str, typing.Any]):
         """Handle the addition of a new chunk."""
