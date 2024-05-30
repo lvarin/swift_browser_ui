@@ -235,7 +235,7 @@ async def handle_upload_ws(
         try:
             msg_unpacked: typing.Dict[str, typing.Any] = msgpack.unpackb(msg.data)
 
-            if msg_unpacked["command"] == "add_header":
+            if msg_unpacked["command"] == "start_upload":
                 await upload_session.handle_begin_upload(msg_unpacked)
             if msg_unpacked["command"] == "add_chunk":
                 await upload_session.handle_upload_chunk(msg_unpacked)

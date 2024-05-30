@@ -101,8 +101,8 @@ class FileUpload:
             await asyncio.sleep(random.uniform(0.1, 0.2))  # nosec  # noqa: S311
         return True
 
-    async def add_header(self) -> None:
-        """Add header for the file."""
+    async def init_upload(self) -> None:
+        """Initialize the upload."""
         if (
             not await self.a_create_container()
             and self.socket is not None
@@ -413,7 +413,7 @@ class UploadSession:
             owner_name,
         )
 
-        await self.uploads[container][path].add_header()
+        await self.uploads[container][path].init_upload()
 
     async def handle_upload_chunk(self, msg: typing.Dict[str, typing.Any]):
         """Handle the addition of a new chunk."""
