@@ -323,13 +323,13 @@ class FileSlicer {
     // Get the first chunk from stream
     await this.getStart();
 
-    // Slice the file and write decrypted content to output
+    // Slice the file and write content to output
     while (!this.done) {
       if (aborted) return;
       await this.getSlice();
 
       if (this.output instanceof WritableStream) {
-        // Write the decrypted contents directly in the file stream if
+        // Write the contents directly in the file stream if
         // downloading to File System
         if (this.bytes > 0) {
           await this.output.write(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
