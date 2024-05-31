@@ -349,13 +349,13 @@ class FileSlicer {
     // Round up to a multiple of 512, because tar
     await this.padFile();
 
-    // Free the session key
-    Module.ccall(
-      "free_crypt4gh_session_key",
-      undefined,
-      ["number"],
-      [downloads[this.id].files[this.path].key],
-    );
+    // // Free the session key
+    // Module.ccall(
+    //   "free_crypt4gh_session_key",
+    //   undefined,
+    //   ["number"],
+    //   [downloads[this.id].files[this.path].key],
+    // );
     return true;
   }
 }
