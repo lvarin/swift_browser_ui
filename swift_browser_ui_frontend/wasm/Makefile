@@ -4,7 +4,7 @@ upload: build/upworker.js build/upworker.wasm
 
 download: build/downworker.js build/downworker.wasm
 
-build/upworker.js: src/upinit1.c src/streamingupload1.c src/upcommon1.c
+build/upworker.js: src/upinit1.c src/upcommon1.c
 	$(CC) $(CFLAGS) $(LDFLAGS) \
 		-fsanitize=undefined \
 		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
@@ -16,7 +16,7 @@ build/upworker.js: src/upinit1.c src/streamingupload1.c src/upcommon1.c
 		-s LLD_REPORT_UNDEFINED \
 		-s FORCE_FILESYSTEM=1 \
 		-s EXPORTED_RUNTIME_METHODS=ccall \
-		-s EXPORTED_FUNCTIONS=_read_in_recv_keys_path,_wrap_chunk_content,_wrap_chunk_len,_rmrecv,_create_keypair,_create_session_key,_get_keypair_private_key,_create_crypt4gh_header,_free_chunk,_free_chunk_nobuf,_free_keypair,_encrypt_chunk,_libinit,_free_crypt4gh_session_key \
+		-s EXPORTED_FUNCTIONS=_read_in_recv_keys_path,_wrap_chunk_content,_wrap_chunk_len,_rmrecv,_create_keypair,_get_keypair_private_key,_free_chunk,_free_chunk_nobuf,_free_keypair,_libinit,_free_crypt4gh_session_key \
 		-O3 \
 		-o \
 		$@ \
