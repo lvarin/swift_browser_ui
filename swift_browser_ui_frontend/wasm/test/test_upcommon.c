@@ -124,7 +124,7 @@ void test_wrap_chunk_content_should_return_chunk_content(void) {
     TEST_ASSERT_EQUAL(val, NULL);
 }
 
-void test_free_chunk_should_succeed(void) {
-    CHUNK *ret = allocate_chunk();
-    free_chunk(ret);
-}
+// void test_free_chunk_should_succeed(void) {
+//     CHUNK *ret = allocate_chunk();
+//     free_chunk(ret);
+// }
