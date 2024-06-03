@@ -53,46 +53,6 @@ uint8_t *get_keypair_public_key(KEYPAIR *kp)
 }
 
 /*
-Get crypt4gh private key
-*/
-uint8_t *get_keypair_private_key(KEYPAIR *kp)
-{
-    return kp->private;
-}
-
-/*
-Key init function, copied over from libcrypt4gh
-*/
-uint8_t *crypt4gh_session_key_new(void)
-{
-    if (sodium_init() == -1)
-    {
-        return NULL;
-    }
-    uint8_t *key = (uint8_t *)sodium_malloc(CRYPT4GH_SESSION_KEY_SIZE * sizeof(uint8_t));
-
-    if (key == NULL || errno == ENOMEM)
-    {
-        return NULL;
-    }
-
-    /* Fill in with random data */
-    randombytes_buf(key, CRYPT4GH_SESSION_KEY_SIZE);
-
-    /* Mark it read-only */
-    sodium_mprotect_readonly(key);
-    return key;
-}
-
-/*
-Free the crypt4gh session key with sodium.
-*/
-void free_crypt4gh_session_key(uint8_t *sk)
-{
-    sodium_free(sk);
-}
-
-/*
 wrap filesystem item remove
 */
 int nftwremove(
@@ -124,21 +84,6 @@ int rmrecv(const char *keypath)
 }
 
 /*
-Allocate chunk.
-*/
-CHUNK *allocate_chunk()
-{
-    CHUNK *ret = malloc(sizeof(CHUNK));
-    if (!ret)
-    {
-        return NULL;
-    }
-    ret->chunk = NULL;
-    ret->len = 0;
-    return ret;
-}
-
-/*
 Wrap chunk length from pointer
 */
 int wrap_chunk_len(CHUNK *chunk)
@@ -163,14 +108,6 @@ void free_chunk(CHUNK *chunk)
     {
         free(chunk->chunk);
     }
-    free(chunk);
-    return;
-}
-
-/*
-Free chunk with stack buffer
-*/
-void free_chunk_nobuf(CHUNK *chunk) {
     free(chunk);
     return;
 }
