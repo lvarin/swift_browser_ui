@@ -84,117 +84,114 @@ function createUploadSession(container, receivers, projectName) {
 }
 
 
-// Add a file to the upload session
-function createUploadSessionFile(container, path) {
-  // We'll need an ephemeral keypair for the upload
-  let keypairPtr = Module.ccall(
-    "create_keypair",
-    "number",
-    [],
-    [],
-  );
-  // We'll also need a session key for encryption
-  let sessionKeyPtr = Module.ccall(
-    "create_session_key",
-    "number",
-    [],
-    [],
-  );
+// // Add a file to the upload session
+// function createUploadSessionFile(container, path) {
+//   // We'll need an ephemeral keypair for the upload
+//   let keypairPtr = Module.ccall(
+//     "create_keypair",
+//     "number",
+//     [],
+//     [],
+//   );
+//   // We'll also need a session key for encryption
+//   let sessionKeyPtr = Modu.notDecryptable
+//     [],
+//   );
 
-  uploads[container].files[path].sessionkey = sessionKeyPtr;
+//   uploads[container].files[path].sessionkey = sessionKeyPtr;
 
-  // We won't need anything else besides the private key for the header build
-  let privateKeyPtr = Module.ccall(
-    "get_keypair_private_key",
-    "number",
-    ["number"],
-    [keypairPtr],
-  );
+//   // We won't need anything else besides the private key for the header build
+//   let privateKeyPtr = Module.ccall(
+//     "get_keypair_private_key",
+//     "number",
+//     ["number"],
+//     [keypairPtr],
+//   );
 
-  // Build the header using the keypair, session receivers and the file session key
-  let header = Module.ccall(
-    "create_crypt4gh_header",
-    "number",
-    ["number", "number", "number", "number"],
-    [
-      sessionKeyPtr,
-      privateKeyPtr,
-      uploads[container].receivers,
-      uploads[container].receiversLen,
-    ],
-  );
-  let headerPtr = Module.ccall(
-    "wrap_chunk_content",
-    "number",
-    ["number"],
-    [header],
-  );
-  let headerLen = Module.ccall(
-    "wrap_chunk_len",
-    "number",
-    ["number"],
-    [header],
-  );
+//   // Build the header using the keypair, session receivers and the file session key
+//   let header = Module.ccall(
+//     "create_crypt4gh_header",
+//     "number",
+//     ["number", "number", "number", "number"],
+//     [
+//       sessionKeyPtr,
+//       privateKeyPtr,
+//       uploads[container].receivers,
+//       uploads[container].receiversLen,
+//     ],
+//   );
+//   let headerPtr = Module.ccall(
+//     "wrap_chunk_content",
+//     "number",
+//     ["number"],
+//     [header],
+//   );
+//   let headerLen = Module.ccall(
+//     "wrap_chunk_len",
+//     "number",
+//     ["number"],
+//     [header],
+//   );
 
-  // Create a new array from view, as views get stale as memory gets managed
-  let headerView = new Uint8Array(HEAPU8.subarray(headerPtr, headerPtr + headerLen));
+//   // Create a new array from view, as views get stale as memory gets managed
+//   let headerView = new Uint8Array(HEAPU8.subarray(headerPtr, headerPtr + headerLen));
 
-  Module.ccall(
-    "free_chunk",
-    "number",
-    ["number"],
-    [header],
-  );
-  // The keypair is not needed for upload after this, so it can be ditched
-  Module.ccall(
-    "free_keypair",
-    undefined,
-    "number",
-    [keypairPtr],
-  );
+//   Module.ccall(
+//     "free_chunk",
+//     "number",
+//     ["number"],
+//     [header],
+//   );
+//   // The keypair is not needed for upload after this, so it can be ditched
+//   Module.ccall(
+//     "free_keypair",
+//     undefined,
+//     "number",
+//     [keypairPtr],
+//   );
 
-  uploads[container].files[path].header = headerView;
-}
+//   uploads[container].files[path].header = headerView;
+// }
 
 
-// Encrypt a single chunk of an upload
-function encryptChunk(container, path, deChunk) {
-  if (!uploads[container]) return undefined;
-  let chunk = Module.ccall(
-    "encrypt_chunk",
-    "number",
-    ["number", "array", "number"],
-    [
-      uploads[container].files[path].sessionkey,
-      deChunk,
-      deChunk.length,
-    ],
-  );
-  let chunkPtr = Module.ccall(
-    "wrap_chunk_content",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  let chunkLen = Module.ccall(
-    "wrap_chunk_len",
-    "number",
-    ["number"],
-    [chunk],
-  );
+// // Encrypt a single chunk of an upload
+// function encryptChunk(container, path, deChunk) {
+//   if (!uploads[container]) return undefined;
+//   let chunk = Module.ccall(
+//     "encrypt_chunk",
+//     "number",
+//     ["number", "array", "number"],
+//     [
+//       uploads[container].files[path].sessionkey,
+//       deChunk,
+//       deChunk.length,
+//     ],
+//   );
+//   let chunkPtr = Module.ccall(
+//     "wrap_chunk_content",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   let chunkLen = Module.ccall(
+//     "wrap_chunk_len",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
 
-  // As above, need a new array from view as it will get stale
-  let ret = new Uint8Array(HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen));
+//   // As above, need a new array from view as it will get stale
+//   let ret = new Uint8Array(HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen));
 
-  Module.ccall(
-    "free_chunk",
-    "number",
-    ["number"],
-    [chunk],
-  );
+//   Module.ccall(
+//     "free_chunk",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
 
-  return ret;
-}
+//   return ret;
+// }
 
 class StreamSlicer{
   constructor(
@@ -232,13 +229,13 @@ class StreamSlicer{
 
     let enBuffer = await enChunk.arrayBuffer();
 
-    let enData = encryptChunk(
-      this.container,
-      this.path,
-      new Uint8Array(enBuffer),
-    );
+    // let enData = encryptChunk(
+    //   this.container,
+    //   this.path,
+    //   new Uint8Array(enBuffer),
+    // );
 
-    return enData;
+    return new Uint8Array(enBuffer);
   }
 
   retryChunk(iter) {
@@ -318,12 +315,12 @@ class StreamSlicer{
     socket.send(msg);
     uploadCount--;
     doneFiles++;
-    Module.ccall(
-      "free_crypt4gh_session_key",
-      undefined,
-      ["number"],
-      [uploads[this.container].files[this.path].sessionkey],
-    );
+    // Module.ccall(
+    //   "free_crypt4gh_session_key",
+    //   undefined,
+    //   ["number"],
+    //   [uploads[this.container].files[this.path].sessionkey],
+    // );
   }
 }
 
@@ -429,7 +426,7 @@ async function addFiles(files, container) {
 
     if (checkPollutingName(file.relativePath)) return;
 
-    let path = `${file.relativePath}.c4gh`;
+    let path = `${file.relativePath}`;
     let totalBytes = Math.floor(handle.size / 65536) * 65564;
     let totalChunks = Math.floor(handle.size / 65536);
 
@@ -460,15 +457,15 @@ async function addFiles(files, container) {
     };
 
     // Create the file header
-    createUploadSessionFile(container, path);
+    // createUploadSessionFile(container, path);
 
     let msg = {
-      command: "add_header",
+      command: "start_upload",
       container: container,
       object: path,
       name: uploads[container].projectName,
       total: totalBytes,
-      data: uploads[container].files[path].header,
+      // data: uploads[container].files[path].header,
     };
 
     if (uploads[container].owner !== "") {

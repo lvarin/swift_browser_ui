@@ -10,12 +10,12 @@ module.exports = {
     },
     entry: {
         downworker: {
-            import: "./js/crypt-post-downworker1.js",
+            import: "./js/crypt-post-downworker.js",
             filename: "./build/downworker-post.js",
             chunkLoading: false,
         },
         upworker: {
-            import: "./js/crypt-post-upworker1.js",
+            import: "./js/crypt-post-upworker.js",
             filename: "./build/upworker-post.js",
             chunkLoading: false,
         },
