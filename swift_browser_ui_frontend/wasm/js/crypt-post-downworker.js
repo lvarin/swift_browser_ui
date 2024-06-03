@@ -140,37 +140,37 @@ function createDownloadSessionFile(id, container, path, header, url, size) {
 }
 
 
-// Decrypt a single chunk of a download
-function decryptChunk(id, path, enChunk) {
-  let chunk = Module.ccall(
-    "decrypt_chunk",
-    "number",
-    ["number", "array", "number"],
-    [
-      downloads[id].files[path].key,
-      enChunk,
-      enChunk.length,
-    ],
-  );
-  let chunkPtr = Module.ccall(
-    "wrap_chunk_content",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  let chunkLen = Module.ccall(
-    "wrap_chunk_len",
-    "number",
-    ["number"],
-    [chunk],
-  );
-  // Don't clone the view, as async writes can't happen in parallel.
-  // ServiceWorker download takes care of cloning as needed.
-  let ret = HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen);
-  totalDone += chunkLen;
+// // Decrypt a single chunk of a download
+// function decryptChunk(id, path, enChunk) {
+//   let chunk = Module.ccall(
+//     "decrypt_chunk",
+//     "number",
+//     ["number", "array", "number"],
+//     [
+//       downloads[id].files[path].key,
+//       enChunk,
+//       enChunk.length,
+//     ],
+//   );
+//   let chunkPtr = Module.ccall(
+//     "wrap_chunk_content",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   let chunkLen = Module.ccall(
+//     "wrap_chunk_len",
+//     "number",
+//     ["number"],
+//     [chunk],
+//   );
+//   // Don't clone the view, as async writes can't happen in parallel.
+//   // ServiceWorker download takes care of cloning as needed.
+//   let ret = HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen);
+//   totalDone += chunkLen;
 
-  return ret;
-}
+//   return ret;
+// }
 
 function startProgressInterval() {
   const interval = setInterval(() => {
@@ -323,20 +323,16 @@ class FileSlicer {
     // Get the first chunk from stream
     await this.getStart();
 
-    // Slice the file and write decrypted content to output
+    // Slice the file and write content to output
     while (!this.done) {
       if (aborted) return;
       await this.getSlice();
 
       if (this.output instanceof WritableStream) {
-        // Write the decrypted contents directly in the file stream if
+        // Write the contents directly in the file stream if
         // downloading to File System
         if (this.bytes > 0) {
-          await this.output.write(decryptChunk(
-            this.id,
-            this.path,
-            this.enChunkBuf.subarray(0, this.bytes),
-          ));
+          await this.output.write(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
         }
       } else {
         // Otherwise queue to the streamController since we're using a
@@ -345,11 +341,7 @@ class FileSlicer {
           await timeout(10);
         }
         if (this.bytes > 0) {
-          this.output.enqueue(new Uint8Array(decryptChunk(
-            this.id,
-            this.path,
-            this.enChunkBuf.subarray(0, this.bytes),
-          )));
+        this.output.enqueue(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
         }
       }
     }
@@ -357,13 +349,13 @@ class FileSlicer {
     // Round up to a multiple of 512, because tar
     await this.padFile();
 
-    // Free the session key
-    Module.ccall(
-      "free_crypt4gh_session_key",
-      undefined,
-      ["number"],
-      [downloads[this.id].files[this.path].key],
-    );
+    // // Free the session key
+    // Module.ccall(
+    //   "free_crypt4gh_session_key",
+    //   undefined,
+    //   ["number"],
+    //   [downloads[this.id].files[this.path].key],
+    // );
     return true;
   }
 }
@@ -422,11 +414,11 @@ async function addSessionFiles(
 ) {
   let undecryptable = false;
 
-  for (const file in headers) {
-    if (!createDownloadSessionFile(id, container, file, headers[file].header, headers[file].url, headers[file].size)) {
-      undecryptable = true;
-    }
-  }
+  // for (const file in headers) {
+  //   if (!createDownloadSessionFile(id, container, file, headers[file].header, headers[file].url, headers[file].size)) {
+  //     undecryptable = true;
+  //   }
+  // }
 
   return undecryptable;
 }
@@ -494,7 +486,7 @@ async function beginDownloadInSession(
       });
     }
 
-    let path = file.replace(".c4gh", "");
+    let path = file;
 
     if (downloads[id].archive) {
       const size = downloads[id].files[file].size;
