@@ -12,4 +12,7 @@ The changes explained below were made in order to remove the encryption in the u
 
 #### WebAssembly
 
-The file `$REPO/swift_browser_ui_frontend/wasm/src/streamingupload.c` which included the functions `create_session_key()` `create_crypt4gh_header` `encrypt_chunk` was deleted. The associated `$REPO/swift_browser_ui_frontend/wasm/src/include/streamingupload.h` `$REPO/swift_browser_ui_frontend/wasm/test/test_streamingupload.c` were deleted as well.
+The file `$REPO/swift_browser_ui_frontend/wasm/src/streamingupload.c` which included the functions `create_session_key()` `create_crypt4gh_header()` `encrypt_chunk()` was deleted. The associated `$REPO/swift_browser_ui_frontend/wasm/src/include/streamingupload.h` `$REPO/swift_browser_ui_frontend/wasm/test/test_streamingupload.c` were deleted as well.
+
+
+In the file `$REPO/swift_browser_ui_frontend/wasm/src/streamingdownload.c` the function `decrypt_chunk()` was deleted. The associated headers and tests included

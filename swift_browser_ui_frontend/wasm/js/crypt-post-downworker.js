@@ -287,13 +287,11 @@ class FileSlicer {
   async concatFile() {
     // If the file can't be decrypted, add the header and concat the encrypted
     // file to the stream
-    if (downloads[this.id].files[this.path].header.length > 0) {
-      if (this.output instanceof WritableStream) {
-        await this.output.write(downloads[this.id].files[this.path].header);
-      } else {
-        this.output.enqueue(downloads[this.id].files[this.path].header);
-      }
-    }
+    // if (this.output instanceof WritableStream) {
+    //   await this.output.write(downloads[this.id].files[this.path].header);
+    // } else {
+    //   this.output.enqueue(downloads[this.id].files[this.path].header);
+    // }
 
     await this.getStart();
 
@@ -418,11 +416,11 @@ async function addSessionFiles(
 ) {
   let undecryptable = false;
 
-  // for (const file in headers) {
-  //   if (!createDownloadSessionFile(id, container, file, headers[file].header, headers[file].url, headers[file].size)) {
-  //     undecryptable = true;
-  //   }
-  // }
+  for (const file in headers) {
+    if (!createDownloadSessionFile(id, container, file, headers[file].header, headers[file].url, headers[file].size)) {
+      undecryptable = true;
+    }
+  }
 
   return undecryptable;
 }

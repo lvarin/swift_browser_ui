@@ -29,7 +29,7 @@ build/upworker.js: src/upinit1.c src/upcommon1.c
 		--post-js build/upworker-post.js \
 		--pre-js js/crypt-pre.js
 
-build/downworker.js: src/upinit1.c src/streamingdownload1.c src/upcommon1.c
+build/downworker.js: src/upinit1.c src/streamingdownload.c src/upcommon1.c
 	$(CC) $(CFLAGS) $(LDFLAGS) \
 		-fsanitize=undefined \
 		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
