@@ -115,29 +115,30 @@ function createDownloadSessionFile(id, container, path, header, url, size) {
     header,
   );
 
-  let sessionKeyPtr = Module.ccall(
-    "get_session_key_from_header",
-    "number",
-    ["number", "string"],
-    [downloads[id].keypair, headerPath],
-  );
+  // let sessionKeyPtr = Module.ccall(
+  //   "get_session_key_from_header",
+  //   "number",
+  //   ["number", "string"],
+  //   [downloads[id].keypair, headerPath],
+  // );
 
   downloads[id].files[path] = {
-    key: sessionKeyPtr,
+    key: 0, // Set key to 0 since no decryption will be used
     url: url,
-    size: getFileSize(size, sessionKeyPtr),
+    size: getFileSize(size, 0),
     realsize: getFileSize(size, 0),
   };
 
-  // Remove the header after parsing
-  FS.unlink(headerPath);
+  // // Remove the header after parsing
+  // FS.unlink(headerPath);
 
-  // Cache the header if no suitable key couldn't be found
-  if (sessionKeyPtr <= 0) {
-    downloads[id].files[path].header = header;
-  }
+  // // Cache the header if no suitable key couldn't be found
+  // if (sessionKeyPtr <= 0) {
+  //   downloads[id].files[path].header = header;
+  // }
 
-  return sessionKeyPtr > 0;
+  // return sessionKeyPtr > 0;
+  return true; // Always return true since decryption is not needed
 }
 
 
@@ -511,15 +512,10 @@ async function beginDownloadInSession(
       file);
 
     let res;
-    if (downloads[id].files[file].key <= 0) {
-      res = await slicer.concatFile().catch(() => {
-        return false;
+    // Always use concatFile since there's no decryption key
+    res = await slicer.concatFile().catch(() => {
+      return false;
       });
-    } else {
-      res = await slicer.sliceFile().catch(() => {
-        return false;
-      });
-    }
     if (!res) {
       if (!aborted) startAbort(!inServiceWorker, "error");
       await abortDownload(id, fileStream);
