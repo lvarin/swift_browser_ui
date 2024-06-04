@@ -66,7 +66,7 @@ if (inServiceWorker) {
 }
 
 // Create a download session
-function createDownloadSession(id, container, handle, archive, test = false) {
+function createDownloadSession(id, container, handle, archive) {
   aborted = false; //reset
 
   // let keypairPtr = Module.ccall(
@@ -91,53 +91,54 @@ function createDownloadSession(id, container, handle, archive, test = false) {
     archive: archive,
     container: container,
     files: {},
-    test: test,
   };
 }
 
-function getFileSize(size, key) {
-  // Use encrypted size as the total file size if the file can't be decrypted
-  return key !=0 ?
-    (Math.floor(size / 65564) * 65536) +
-    (size % 65564 > 0 ? size % 65564 - 28 : 0) :
-    size;
-}
+// function getFileSize(size, key) {
+//   // Use encrypted size as the total file size if the file can't be decrypted
+//   return key !=0 ?
+//     (Math.floor(size / 65564) * 65536) +
+//     (size % 65564 > 0 ? size % 65564 - 28 : 0) :
+//     size;
+// }
 
 // Add a file to the download session
 function createDownloadSessionFile(id, container, path, header, url, size) {
   if (checkPollutingName(path)) return;
 
-  let headerPath = `header_${container}_`
-    + Math.random().toString(36)
-    + Math.random().toString(36);
-  FS.writeFile(
-    headerPath,
-    header,
-  );
+  // let headerPath = `header_${container}_`
+  //   + Math.random().toString(36)
+  //   + Math.random().toString(36);
+  // FS.writeFile(
+  //   headerPath,
+  //   header,
+  // );
 
-  let sessionKeyPtr = Module.ccall(
-    "get_session_key_from_header",
-    "number",
-    ["number", "string"],
-    [downloads[id].keypair, headerPath],
-  );
+  // let sessionKeyPtr = Module.ccall(
+  //   "get_session_key_from_header",
+  //   "number",
+  //   ["number", "string"],
+  //   [downloads[id].keypair, headerPath],
+  // );
 
   downloads[id].files[path] = {
-    key: sessionKeyPtr,
+    // key: sessionKeyPtr,
     url: url,
-    size: getFileSize(size, sessionKeyPtr),
-    realsize: getFileSize(size, 0),
+    // size: getFileSize(size, sessionKeyPtr),
+    size: size,
+    realsize: size,
   };
 
   // Remove the header after parsing
-  FS.unlink(headerPath);
+  // FS.unlink(headerPath);
 
   // Cache the header if no suitable key couldn't be found
-  if (sessionKeyPtr <= 0) {
-    downloads[id].files[path].header = header;
-  }
+  // if (sessionKeyPtr <= 0) {
+  //   downloads[id].files[path].header = header;
+  // }
 
-  return sessionKeyPtr > 0;
+  // return sessionKeyPtr > 0;
+  return true;
 }
 
 
@@ -287,11 +288,11 @@ class FileSlicer {
   async concatFile() {
     // If the file can't be decrypted, add the header and concat the encrypted
     // file to the stream
-    // if (this.output instanceof WritableStream) {
-    //   await this.output.write(downloads[this.id].files[this.path].header);
-    // } else {
-    //   this.output.enqueue(downloads[this.id].files[this.path].header);
-    // }
+    if (this.output instanceof WritableStream) {
+      await this.output.write(downloads[this.id].files[this.path].header);
+    } else {
+      this.output.enqueue(downloads[this.id].files[this.path].header);
+    }
 
     await this.getStart();
 
@@ -306,7 +307,6 @@ class FileSlicer {
         this.output.enqueue(new Uint8Array(this.chunk));
       }
       this.totalBytes += this.chunk.length;
-      totalDone += this.chunk.length;
       ({ value: this.chunk, done: this.done } = await this.reader.read());
 
       if (this.done && this.segmentOffset < downloads[this.id].files[this.path].realsize) {
@@ -325,16 +325,16 @@ class FileSlicer {
     // Get the first chunk from stream
     await this.getStart();
 
-    // Slice the file and write content to output
+    // Slice the file and write decrypted content to output
     while (!this.done) {
       if (aborted) return;
       await this.getSlice();
 
       if (this.output instanceof WritableStream) {
-        // Write the contents directly in the file stream if
+        // Write the decrypted contents directly in the file stream if
         // downloading to File System
         if (this.bytes > 0) {
-          await this.output.write(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
+          await this.output.write(this.enChunkBuf.subarray(0, this.bytes));
         }
       } else {
         // Otherwise queue to the streamController since we're using a
@@ -343,7 +343,7 @@ class FileSlicer {
           await timeout(10);
         }
         if (this.bytes > 0) {
-        this.output.enqueue(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
+          this.output.enqueue(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
         }
       }
     }
@@ -351,7 +351,7 @@ class FileSlicer {
     // Round up to a multiple of 512, because tar
     await this.padFile();
 
-    // // Free the session key
+    // Free the session key
     // Module.ccall(
     //   "free_crypt4gh_session_key",
     //   undefined,
@@ -488,7 +488,7 @@ async function beginDownloadInSession(
       });
     }
 
-    let path = file;
+    let path = file.replace(".c4gh", "");
 
     if (downloads[id].archive) {
       const size = downloads[id].files[file].size;
@@ -551,8 +551,6 @@ async function beginDownloadInSession(
     postMessage({
       eventType: "finished",
       container: downloads[id].container,
-      test: downloads[id].test,
-      handle: downloads[id].handle,
     });
   } else {
   // Inform download with service worker finished
@@ -650,7 +648,7 @@ self.addEventListener("message", async (e) => {
         }
       } else {
         createDownloadSession(
-          e.data.id, e.data.container, e.data.handle, false, e.data.test);
+          e.data.id, e.data.container, e.data.handle, false);
         postMessage({
           eventType: "getHeaders",
           id: e.data.id,
@@ -682,8 +680,7 @@ self.addEventListener("message", async (e) => {
           });
         }
       } else {
-        createDownloadSession(
-          e.data.id, e.data.container, e.data.handle, true, e.data.test);
+        createDownloadSession(e.data.id, e.data.container, e.data.handle, true);
         postMessage({
           eventType: "getHeaders",
           id: e.data.id,
