@@ -8,7 +8,7 @@ The changes explained below were made in order to remove the encryption in the u
 [swift-browser-ui](https://github.com/CSCfi/swift-browser-ui) is the base repository and all the changes made for the Allas-UI are as follows:
 
 
-### Encryption
+### Upload (Encryption)
 
 #### WebAssembly
 

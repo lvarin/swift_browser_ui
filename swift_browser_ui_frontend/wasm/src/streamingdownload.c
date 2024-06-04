@@ -72,3 +72,24 @@ uint8_t *get_session_key_from_header(const KEYPAIR *kp, const char *header)
         return NULL;
     }
 }
+
+/*
+Decrypt a 64KiB + 22 chunk of data.
+*/
+CHUNK *decrypt_chunk(
+    const uint8_t *session_key,
+    uint8_t *segment,
+    size_t len_segment)
+{
+    CHUNK *ret = &ret_buf;
+    memset(chunk_buf, 0, 65536);
+    ret->chunk = chunk_buf;
+    int retc = crypt4gh_segment_decrypt(
+        session_key,
+        segment,
+        len_segment,
+        ret->chunk,
+        &(ret->len));
+
+    return ret;
+}
