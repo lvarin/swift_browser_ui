@@ -4,56 +4,29 @@ upload: build/upworker.js build/upworker.wasm
 
 download: build/downworker.js build/downworker.wasm
 
-build/upworker.js: src/upinit.c src/upcommon.c
-	$(CC) $(CFLAGS) $(LDFLAGS) \
-		-fsanitize=undefined \
-		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
-		-s WARN_UNALIGNED=1 \
-		-s ALLOW_MEMORY_GROWTH \
-		-s ASSERTIONS=1 \
-		-g3 \
+build/upworker.js:
+	emcc -O3 \
+		-s WASM=1 \
 		-s TOTAL_MEMORY=268435456 \
+		-s ALLOW_MEMORY_GROWTH=1 \
+		-s ASSERTIONS=1 \
 		-s LLD_REPORT_UNDEFINED \
 		-s FORCE_FILESYSTEM=1 \
-		-s EXPORTED_RUNTIME_METHODS=ccall \
-		-s EXPORTED_FUNCTIONS=_read_in_recv_keys_path,_wrap_chunk_content,_wrap_chunk_len,_rmrecv,_create_keypair,_get_keypair_private_key,_free_chunk,_free_chunk_nobuf,_free_keypair,_libinit,_free_crypt4gh_session_key \
-		-O3 \
-		-o \
-		$@ \
-		$^ \
-		-lcrypt4gh \
-		-lc4gh-keys \
-		-lssl \
-		-lcrypto \
-		-lsodium \
+		-o $@ \
 		--post-js build/upworker-post.js \
 		--pre-js js/crypt-pre.js
 
-build/downworker.js: src/upinit.c src/streamingdownload.c src/upcommon.c
-	$(CC) $(CFLAGS) $(LDFLAGS) \
-		-fsanitize=undefined \
-		-s ERROR_ON_UNDEFINED_SYMBOLS=0 \
-		-s WARN_UNALIGNED=1 \
-		-s ALLOW_MEMORY_GROWTH \
-		-s ASSERTIONS=1 \
-		-g3 \
+build/downworker.js:
+	emcc -O3 \
+		-s WASM=1 \
 		-s TOTAL_MEMORY=268435456 \
+		-s ALLOW_MEMORY_GROWTH=1 \
+		-s ASSERTIONS=1 \
 		-s LLD_REPORT_UNDEFINED \
 		-s FORCE_FILESYSTEM=1 \
-		-s EXPORTED_RUNTIME_METHODS=ccall \
-		-s EXPORTED_FUNCTIONS=_read_in_recv_keys_path,_wrap_chunk_content,_wrap_chunk_len,_rmrecv,_create_keypair,_get_session_key_from_header,_get_keypair_public_key,_free_chunk,_free_chunk_nobuf,_free_keypair,_decrypt_chunk,_libinit,_free_crypt4gh_session_key \
-		-O3 \
-		-o \
-		$@ \
-		$^ \
-		-lcrypt4gh \
-		-lc4gh-keys \
-		-lssl \
-		-lcrypto \
-		-lsodium \
+		-o $@ \
 		--post-js build/downworker-post.js \
 		--pre-js js/crypt-pre.js
-
 
 clean:
 	rm -rf build
