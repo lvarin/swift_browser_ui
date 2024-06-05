@@ -20,7 +20,7 @@ Schema for storing the download information:
 let downloads = {};
 // Text encoder for quickly encoding tar headers
 let enc = new TextEncoder();
-let libinitDone = false;
+let libinitDone = true;
 let downProgressInterval = undefined;
 let totalDone = 0;
 let totalToDo = 0;
@@ -736,10 +736,10 @@ self.addEventListener("message", async (e) => {
   }
 });
 
-waitAsm().then(() => {
-  Module.ccall("libinit", undefined, undefined, undefined);
-  libinitDone = true;
-});
+// waitAsm().then(() => {
+//   Module.ccall("libinit", undefined, undefined, undefined);
+//   libinitDone = true;
+// });
 
 export var downloadRuntime = Module;
 export var downloadFileSystem = FS;

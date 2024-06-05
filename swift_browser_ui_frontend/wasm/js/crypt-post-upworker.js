@@ -413,8 +413,8 @@ async function openWebSocket (
     }
   };
 
-  await waitAsm();
-  Module.ccall("libinit", undefined, undefined, undefined);
+  // await waitAsm();
+  // Module.ccall("libinit", undefined, undefined, undefined);
 }
 
 /*
