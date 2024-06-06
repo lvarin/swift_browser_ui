@@ -69,23 +69,7 @@ if (inServiceWorker) {
 function createDownloadSession(id, container, handle, archive, test = false) {
   aborted = false; //reset
 
-  // let keypairPtr = Module.ccall(
-  //   "create_keypair",
-  //   "number",
-  //   [],
-  //   [],
-  // );
-
-  // let pubkeyPtr = Module.ccall(
-  //   "get_keypair_public_key",
-  //   "number",
-  //   ["number"],
-  //   [keypairPtr],
-  // );
-
   downloads[id] = {
-    // keypair: keypairPtr,
-    // pubkey: new Uint8Array(HEAPU8.subarray(pubkeyPtr, pubkeyPtr + 32)),
     handle: handle,
     direct: !inServiceWorker,
     archive: archive,
@@ -115,13 +99,6 @@ function createDownloadSessionFile(id, container, path, header, url, size) {
     header,
   );
 
-  // let sessionKeyPtr = Module.ccall(
-  //   "get_session_key_from_header",
-  //   "number",
-  //   ["number", "string"],
-  //   [downloads[id].keypair, headerPath],
-  // );
-
   downloads[id].files[path] = {
     key: 0, // Set key to 0 since no decryption will be used
     url: url,
@@ -129,50 +106,8 @@ function createDownloadSessionFile(id, container, path, header, url, size) {
     realsize: getFileSize(size, 0),
   };
 
-  // // Remove the header after parsing
-  // FS.unlink(headerPath);
-
-  // // Cache the header if no suitable key couldn't be found
-  // if (sessionKeyPtr <= 0) {
-  //   downloads[id].files[path].header = header;
-  // }
-
-  // return sessionKeyPtr > 0;
   return true; // Always return true since decryption is not needed
 }
-
-
-// // Decrypt a single chunk of a download
-// function decryptChunk(id, path, enChunk) {
-//   let chunk = Module.ccall(
-//     "decrypt_chunk",
-//     "number",
-//     ["number", "array", "number"],
-//     [
-//       downloads[id].files[path].key,
-//       enChunk,
-//       enChunk.length,
-//     ],
-//   );
-//   let chunkPtr = Module.ccall(
-//     "wrap_chunk_content",
-//     "number",
-//     ["number"],
-//     [chunk],
-//   );
-//   let chunkLen = Module.ccall(
-//     "wrap_chunk_len",
-//     "number",
-//     ["number"],
-//     [chunk],
-//   );
-//   // Don't clone the view, as async writes can't happen in parallel.
-//   // ServiceWorker download takes care of cloning as needed.
-//   let ret = HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen);
-//   totalDone += chunkLen;
-
-//   return ret;
-// }
 
 function startProgressInterval() {
   const interval = setInterval(() => {
@@ -286,13 +221,6 @@ class FileSlicer {
   }
 
   async concatFile() {
-    // If the file can't be decrypted, add the header and concat the encrypted
-    // file to the stream
-    // if (this.output instanceof WritableStream) {
-    //   await this.output.write(downloads[this.id].files[this.path].header);
-    // } else {
-    //   this.output.enqueue(downloads[this.id].files[this.path].header);
-    // }
 
     await this.getStart();
 
@@ -352,13 +280,6 @@ class FileSlicer {
     // Round up to a multiple of 512, because tar
     await this.padFile();
 
-    // // Free the session key
-    // Module.ccall(
-    //   "free_crypt4gh_session_key",
-    //   undefined,
-    //   ["number"],
-    //   [downloads[this.id].files[this.path].key],
-    // );
     return true;
   }
 }
@@ -400,12 +321,6 @@ async function abortDownload(id, stream = null) {
 
 // Safely free and remove a download session
 function finishDownloadSession(id) {
-  // Module.ccall(
-  //   "free_keypair",
-  //   undefined,
-  //   ["number"],
-  //   [downloads[id].keypair],
-  // );
   delete downloads[id];
 }
 
@@ -639,7 +554,6 @@ self.addEventListener("message", async (e) => {
             files: [
               e.data.file,
             ],
-            // pubkey: downloads[e.data.id].pubkey,
             owner: e.data.owner,
             ownerName: e.data.ownerName,
           });
@@ -654,7 +568,6 @@ self.addEventListener("message", async (e) => {
           files: [
             e.data.file,
           ],
-          // pubkey: downloads[e.data.id].pubkey,
           owner: e.data.owner,
           ownerName: e.data.ownerName,
         });
@@ -672,7 +585,6 @@ self.addEventListener("message", async (e) => {
             id: e.data.id,
             container: e.data.container,
             files: e.data.files,
-            // pubkey: downloads[e.data.id].pubkey,
             owner: e.data.owner,
             ownerName: e.data.ownerName,
           });
@@ -685,7 +597,6 @@ self.addEventListener("message", async (e) => {
           id: e.data.id,
           container: e.data.container,
           files: e.data.files,
-          // pubkey: downloads[e.data.id].pubkey,
           owner: e.data.owner,
           ownerName: e.data.ownerName,
         });
@@ -735,11 +646,6 @@ self.addEventListener("message", async (e) => {
       break;
   }
 });
-
-// waitAsm().then(() => {
-//   Module.ccall("libinit", undefined, undefined, undefined);
-//   libinitDone = true;
-// });
 
 export var downloadRuntime = Module;
 export var downloadFileSystem = FS;
