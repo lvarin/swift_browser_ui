@@ -261,3 +261,31 @@ This file has been modified to remove the decryption in the download process. Ch
 
 8. **Changes in `addEventListener()` Function**:
 - In every call to `createDownloadSession()` function when `postMessage()` function is called, `pubkey: downloads[e.data.id].pubkey` was removed from every call.
+
+
+### Console Log PUT 502 (Missing Public Key) error
+
+While pressing the Download button. In the browser's console log this error was received:
+
+
+
+In order to solve that error I have made these changes in `$REPO/swift_browser_ui/common/vault_client.py` in the `put_whitelist_key()` function
+   ```python
+   async def put_whitelist_key(
+         self, project: str, flavor: str, public_key: bytes
+      ) -> None:
+         """Update the project's whitelisted key.
+
+         :param project: Project ID
+         :param flavor: Public key flavor: one of crypt4gh or ed25519
+         :param public_key: Public key bytes
+         """
+         await self._request(
+               "POST",
+               f"c4ghtransit/whitelist/{project}/{self.service}/{self._key_name}",
+               json_data={
+                  "flavor": flavor,
+                  "pubkey": 0,  # to resolve missing pubkey error
+               },
+         )
+   ```
