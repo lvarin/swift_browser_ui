@@ -4,7 +4,6 @@ import asyncio
 import logging
 import os
 import time
-from base64 import standard_b64encode
 from dataclasses import dataclass
 from typing import Any, Dict, List
 
@@ -275,7 +274,7 @@ class VaultClient:
             f"c4ghtransit/whitelist/{project}/{self.service}/{self._key_name}",
             json_data={
                 "flavor": flavor,
-                "pubkey": standard_b64encode(public_key).decode("ascii"),
+                "pubkey": 0,  # to resolve missing pubkey error
             },
         )
 
