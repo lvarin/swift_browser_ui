@@ -120,17 +120,6 @@ class FileUpload:
             )
             self.failed = True
 
-        # b64_header = base64.standard_b64encode(header).decode("ascii")
-
-        # # Upload the header both to Vault and to Swift storage as failsafe during Vault introduction period
-        # await self.vault.put_header(
-        #     self.name,
-        #     self.container,
-        #     self.path,
-        #     b64_header,
-        #     owner=self.owner_name,
-        # )
-
         self.tasks = [
             asyncio.create_task(self.upload_segment(i))
             for i in range(0, self.total_segments)
