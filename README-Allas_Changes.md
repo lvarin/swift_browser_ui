@@ -157,3 +157,107 @@ In the `handle_upload_ws()` function the command `"add_header"` was chnaged to `
 ### Download (Decryption)
 
 #### WebAssembly (JavaScript)
+
+##### `$REPO/swift_browser_ui_frontend/wasm/js/crypt-post-downworker.js`
+
+This file has been modified to remove the decryption in the download process. Changes described as follows:
+
+1. `let libinitDone = true; ` was changed to true and the calls to `waitAsm()` and `libinit()` (at the end of the file) were removed.
+
+2. **Changes in `createDownloadSession()` Function**:
+- The function calls to the `c` functions `create_keypair()` and `get_keypair_public_key()` were removed.
+- `keypair` and `pubkey` properties removed from the `downloadsp[id]` object.
+
+3. **Changes in `createDownloadSessionFile()` Function**:
+- The function call to `get_session_key_from_header()` was removed.
+- `key` property in `downloads[id].files[path]` was set to 0 since no decryption will be used.
+- removed header decryption related code.
+- `return true` always return true since decryption is not needed.
+   ```js
+   // Add a file to the download session
+   function createDownloadSessionFile(id, container, path, header, url, size) {
+   if (checkPollutingName(path)) return;
+
+   let headerPath = `header_${container}_`
+      + Math.random().toString(36)
+      + Math.random().toString(36);
+   FS.writeFile(
+      headerPath,
+      header,
+   );
+
+   downloads[id].files[path] = {
+      key: 0, // Set key to 0 since no decryption will be used
+      url: url,
+      size: getFileSize(size, 0),
+      realsize: getFileSize(size, 0),
+   };
+
+   return true; // Always return true since decryption is not needed
+   }
+   ```
+4. **Removed `decryptChunk()` Function**: `decryptChunk()` was responsible for decrypting a single chunk of a download. Not longer needed.
+
+5. **Changes in `FileSlicer` Class**:
+- In the `concatFile()` function the concatination of the headers decryption functions were removed.
+- The `sliceFile()` function was changed and modified.
+   ```js
+   async sliceFile() {
+      // Get the first chunk from stream
+      await this.getStart();
+
+      // Slice the file and write content to output
+      while (!this.done) {
+         if (aborted) return;
+         await this.getSlice();
+
+         if (this.output instanceof WritableStream) {
+         // Write the contents directly in the file stream if
+         // downloading to File System
+         if (this.bytes > 0) {
+            await this.output.write(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
+         }
+         } else {
+         // Otherwise queue to the streamController since we're using a
+         // ServiceWorker for downloading
+         while(this.output.desiredSize <= 0) {
+            await timeout(10);
+         }
+         if (this.bytes > 0) {
+         this.output.enqueue(new Uint8Array(this.enChunkBuf.subarray(0, this.bytes)));
+         }
+         }
+      }
+
+      // Round up to a multiple of 512, because tar
+      await this.padFile();
+
+      return true;
+   }
+   ```
+
+6. **Changes in `finishDownloadSession()` Function**: The call to `free_keypair()` was removed.
+
+7. **Changes in `beginDownloadInSession()` Function**:
+- Changed `let path = file.replace(".c4gh", "");` to `let path = file;`.
+- Changed the `slicer` instance logic
+   ```js
+   const slicer = new FileSlicer(
+         fileStream,
+         id,
+         file);
+
+      let res;
+      // Always use concatFile since there's no decryption key
+      res = await slicer.concatFile().catch(() => {
+         return false;
+         });
+      if (!res) {
+         if (!aborted) startAbort(!inServiceWorker, "error");
+         await abortDownload(id, fileStream);
+         return;
+      }
+   ```
+
+8. **Changes in `addEventListener()` Function**:
+- In every call to `createDownloadSession()` function when `postMessage()` function is called, `pubkey: downloads[e.data.id].pubkey` was removed from every call.
