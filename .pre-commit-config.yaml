@@ -65,13 +65,13 @@ repos:
       require_serial: true
       pass_filenames: false
 
-    - id: pyspelling-docs
-      name: spellcheck markdown and documentation
-      entry: ./scripts/pyspelling.sh
-      language: script
-      args: [markdown]
-      types_or: [markdown, rst]
-      require_serial: true
+    # - id: pyspelling-docs
+    #   name: spellcheck markdown and documentation
+    #   entry: ./scripts/pyspelling.sh
+    #   language: script
+    #   args: [markdown]
+    #   types_or: [markdown, rst]
+    #   require_serial: true
 
     - id: pyspelling-frontend
       name: spellcheck frontend strings

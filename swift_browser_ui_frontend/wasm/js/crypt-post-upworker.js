@@ -46,26 +46,6 @@ function createUploadSession(container, receivers, projectName) {
     );
   }
 
-  // // Read and parse the receiver keys
-  // let receiversStructPtr = Module.ccall(
-  //   "read_in_recv_keys_path",
-  //   "number",
-  //   ["string"],
-  //   [tmpdirpath],
-  // );
-  // let receiversPtr = Module.ccall(
-  //   "wrap_chunk_content",
-  //   "number",
-  //   ["number"],
-  //   [receiversStructPtr],
-  // );
-  // let receiversLen = Module.ccall(
-  //   "wrap_chunk_len",
-  //   "number",
-  //   ["number"],
-  //   [receiversStructPtr],
-  // );
-
   for (const file of files) {
     FS.unlink(file);
   }
@@ -82,116 +62,6 @@ function createUploadSession(container, receivers, projectName) {
     ownerName: "",
   };
 }
-
-
-// // Add a file to the upload session
-// function createUploadSessionFile(container, path) {
-//   // We'll need an ephemeral keypair for the upload
-//   let keypairPtr = Module.ccall(
-//     "create_keypair",
-//     "number",
-//     [],
-//     [],
-//   );
-//   // We'll also need a session key for encryption
-//   let sessionKeyPtr = Modu.notDecryptable
-//     [],
-//   );
-
-//   uploads[container].files[path].sessionkey = sessionKeyPtr;
-
-//   // We won't need anything else besides the private key for the header build
-//   let privateKeyPtr = Module.ccall(
-//     "get_keypair_private_key",
-//     "number",
-//     ["number"],
-//     [keypairPtr],
-//   );
-
-//   // Build the header using the keypair, session receivers and the file session key
-//   let header = Module.ccall(
-//     "create_crypt4gh_header",
-//     "number",
-//     ["number", "number", "number", "number"],
-//     [
-//       sessionKeyPtr,
-//       privateKeyPtr,
-//       uploads[container].receivers,
-//       uploads[container].receiversLen,
-//     ],
-//   );
-//   let headerPtr = Module.ccall(
-//     "wrap_chunk_content",
-//     "number",
-//     ["number"],
-//     [header],
-//   );
-//   let headerLen = Module.ccall(
-//     "wrap_chunk_len",
-//     "number",
-//     ["number"],
-//     [header],
-//   );
-
-//   // Create a new array from view, as views get stale as memory gets managed
-//   let headerView = new Uint8Array(HEAPU8.subarray(headerPtr, headerPtr + headerLen));
-
-//   Module.ccall(
-//     "free_chunk",
-//     "number",
-//     ["number"],
-//     [header],
-//   );
-//   // The keypair is not needed for upload after this, so it can be ditched
-//   Module.ccall(
-//     "free_keypair",
-//     undefined,
-//     "number",
-//     [keypairPtr],
-//   );
-
-//   uploads[container].files[path].header = headerView;
-// }
-
-
-// // Encrypt a single chunk of an upload
-// function encryptChunk(container, path, deChunk) {
-//   if (!uploads[container]) return undefined;
-//   let chunk = Module.ccall(
-//     "encrypt_chunk",
-//     "number",
-//     ["number", "array", "number"],
-//     [
-//       uploads[container].files[path].sessionkey,
-//       deChunk,
-//       deChunk.length,
-//     ],
-//   );
-//   let chunkPtr = Module.ccall(
-//     "wrap_chunk_content",
-//     "number",
-//     ["number"],
-//     [chunk],
-//   );
-//   let chunkLen = Module.ccall(
-//     "wrap_chunk_len",
-//     "number",
-//     ["number"],
-//     [chunk],
-//   );
-
-//   // As above, need a new array from view as it will get stale
-//   let ret = new Uint8Array(HEAPU8.subarray(chunkPtr, chunkPtr + chunkLen));
-
-//   Module.ccall(
-//     "free_chunk",
-//     "number",
-//     ["number"],
-//     [chunk],
-//   );
-
-//   return ret;
-// }
 
 class StreamSlicer{
   constructor(
@@ -228,12 +98,6 @@ class StreamSlicer{
     }
 
     let enBuffer = await enChunk.arrayBuffer();
-
-    // let enData = encryptChunk(
-    //   this.container,
-    //   this.path,
-    //   new Uint8Array(enBuffer),
-    // );
 
     return new Uint8Array(enBuffer);
   }
@@ -315,12 +179,6 @@ class StreamSlicer{
     socket.send(msg);
     uploadCount--;
     doneFiles++;
-    // Module.ccall(
-    //   "free_crypt4gh_session_key",
-    //   undefined,
-    //   ["number"],
-    //   [uploads[this.container].files[this.path].sessionkey],
-    // );
   }
 }
 
@@ -412,9 +270,6 @@ async function openWebSocket (
         break;
     }
   };
-
-  // await waitAsm();
-  // Module.ccall("libinit", undefined, undefined, undefined);
 }
 
 /*
@@ -456,16 +311,12 @@ async function addFiles(files, container) {
       slicer: new StreamSlicer(handle, container, path),
     };
 
-    // Create the file header
-    // createUploadSessionFile(container, path);
-
     let msg = {
       command: "start_upload",
       container: container,
       object: path,
       name: uploads[container].projectName,
       total: totalBytes,
-      // data: uploads[container].files[path].header,
     };
 
     if (uploads[container].owner !== "") {
