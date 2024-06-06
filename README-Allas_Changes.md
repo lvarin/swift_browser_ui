@@ -267,6 +267,7 @@ This file has been modified to remove the decryption in the download process. Ch
 
 While pressing the Download button. In the browser's console log this error was received:
 
+![Screenshot from 2024-06-06 08-57-31](https://github.com/DeRuina/swift_browser_ui/assets/81315494/93a635fa-f2b3-4869-af5c-1b2f8f80aff8)
 
 
 In order to solve that error I have made these changes in `$REPO/swift_browser_ui/common/vault_client.py` in the `put_whitelist_key()` function
