@@ -5,16 +5,16 @@ import lang_overrides from "@/assets/lang_overrides";
 let default_translations = {
   en: {
     message: {
-      indexOIDC: {
-        logIn: "Log in",
-        href: "/login/oidc",
-      },
       index: {
-        logIn: "Log in",
+        formName: "CSC Account",
         loginmethods: [
           {
-            msg: "Log in with SSO",
-            href: "/login/oidc_front",
+            msg: "Log In using Haka",
+            href: "/login",
+          },
+          {
+            msg: "Log in with CSC Account",
+            href: "/loginpassword",
           },
         ],
       },
@@ -60,9 +60,9 @@ let default_translations = {
       },
       dropFiles: "Drag and drop folders here or ",
       support: "Support",
-      program_name: "Swift browser",
-      program_description:
-        "Web UI for browsing contents in Swift object " + "storage systems.",
+      program_name: "Allas Web UI",
+      program_description: "Allas Web UI provides a simple-to-use web user " +
+          "interface for CSC Object Storage service, Allas.",
       currentProj: "Project",
       selectProj: "Select project",
       createFolder: "Create folder",
@@ -384,13 +384,13 @@ let default_translations = {
       },
       supportMenu: {
         userGuide: "User guide",
-        userGuideLink: "#",
+        userGuideLink: "https://docs.csc.fi/data/Allas/",
         projectInfo: "Project information",
-        projectInfoBaseLink: "#",
+        projectInfoBaseLink: "https://my.csc.fi/projects/",
         createTokens: "Create API tokens",
       },
       footerMenu: {
-        title: "Swift browser",
+        title: "Allas Web UI",
         serviceProvider: "Service provider",
         serviceProviderLink: "#",
         menuItems: [
@@ -547,16 +547,16 @@ let default_translations = {
   },
   fi: {
     message: {
-      indexOIDC: {
-        logIn: "Kirjaudu",
-        href: "/login/oidc",
-      },
       index: {
-        logIn: "Kirjaudu sisään",
+        formName: "CSC Käyttäjä",
         loginmethods: [
           {
-            msg: "Kirjaudu SSO:ta käyttäen",
-            href: "/login/oidc_front",
+            msg: "Kirjaudu Haka:lla",
+            href: "/login",
+          },
+          {
+            msg: "Kirjaudu CSC käyttäjällä",
+            href: "/loginpassword",
           },
         ],
       },
@@ -600,10 +600,9 @@ let default_translations = {
       },
       dropFiles: "Vedä ja pudota kansiot tähän tai ",
       support: "Tuki",
-      program_name: "Swift browser",
-      program_description:
-        "Web-käyttöliittymä tallennettujen tiedostojen " +
-        "selaamiseen Swift-objektitietojärjestelmissä.",
+      program_name: "Allas Web UI",
+      program_description: "Allas Web UI tarjoaa yksinkertaisen " +
+          "web-käyttöliittymän CSC:n Object Storage -palveluun, Altaaseen.",
       currentProj: "Projekti",
       selectProj: "Valitse projekti",
       createFolder: "Luo kansio",
@@ -930,13 +929,13 @@ let default_translations = {
       },
       supportMenu: {
         userGuide: "Käyttöohje",
-        userGuideLink: "#",
+        userGuideLink: "https://docs.csc.fi/data/Allas/",
         projectInfo: "Projektin tiedot",
-        projectInfoBaseLink: "#",
+        projectInfoBaseLink: "https://my.csc.fi/projects/",
         createTokens: "Luo API-avaimia",
       },
       footerMenu: {
-        title: "Swift browser",
+        title: "Allas Web UI",
         serviceProvider: "Palveluntarjoaja",
         serviceProviderLink: "#",
         menuItems: [
