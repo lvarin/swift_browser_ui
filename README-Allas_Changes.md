@@ -290,3 +290,55 @@ In order to solve that error I have made these changes in `$REPO/swift_browser_u
                },
          )
    ```
+
+
+### Removing "Advanced encryption options" from the Upload Front-End
+
+As can be seen in the picture below the "Advanced excryption options" are not longer needed and were removed.
+
+
+
+1. **Changes in `$REPO/swift_browser_ui_frontend/src/common/lang.js`**: Under `encrypt:` both in the English and the Finnish languages `multipleReceivers:`, `pubkey:`, `pubkeyLabel:`, `pubkeyError:`, `noRecipients:`, `addkey:` and `advancedOptions:` were all removed.
+
+2. **Changes in `$REPO/swift_browser_ui_frontend/src/components/UploadModal.vue`**: Under `id="accordion"` this code was removed:
+   ```vue
+            <c-accordion-item
+               :heading="$t('message.encrypt.advancedOptions')"
+               :value="$t('message.encrypt.advancedOptions')"
+            >
+               <c-container>
+               <c-flex>
+                  <h3 class="title is-6">
+                     {{ $t('message.encrypt.multipleReceivers') }}
+                  </h3>
+                  <c-text-field
+                     v-model="addRecvkey"
+                     v-csc-control
+                     :label="$t('message.encrypt.pubkey')"
+                     type="text"
+                     rows="2"
+                     :valid="validatePubkey(addRecvkey) || addRecvkey.length === 0"
+                     :validation="$t('message.encrypt.pubkeyError')"
+                  />
+                  <c-button
+                     :disabled="!validatePubkey(addRecvkey)"
+                     @click="appendPublicKey"
+                     @keyup.enter="appendPublicKey"
+                  >
+                     {{ $t("message.encrypt.addkey") }}
+                  </c-button>
+                  Footer options needs to be in CamelCase,
+                  because csc-ui wont recognise it otherwise.
+                  <c-data-table
+                     class="publickey-table"
+                     :data.prop="recvHashedKeys"
+                     :headers.prop="publickeyHeaders"
+                     :no-data-text="$t('message.encrypt.noRecipients')"
+                     :pagination.prop="keyPagination"
+                     :footerOptions.prop="{hideDetails: true}"
+                     @click="checkPage($event,true)"
+                  />
+               </c-flex>
+               </c-container>
+            </c-accordion-item>
+   ```
