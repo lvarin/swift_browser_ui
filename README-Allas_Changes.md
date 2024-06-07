@@ -296,6 +296,7 @@ In order to solve that error I have made these changes in `$REPO/swift_browser_u
 
 As can be seen in the picture below the "Advanced excryption options" are not longer needed and were removed.
 
+![Screenshot from 2024-06-06 16-04-39](https://github.com/DeRuina/swift_browser_ui/assets/81315494/2a7d43a9-7d3d-4181-82a9-2bd6570c765d)
 
 
 1. **Changes in `$REPO/swift_browser_ui_frontend/src/common/lang.js`**: Under `encrypt:` both in the English and the Finnish languages `multipleReceivers:`, `pubkey:`, `pubkeyLabel:`, `pubkeyError:`, `noRecipients:`, `addkey:` and `advancedOptions:` were all removed.
