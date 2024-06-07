@@ -318,12 +318,6 @@ let default_translations = {
         uploadDestination: "Destination folder: ",
         upload_step1: "Create a new folder",
         upload_step2: "Files to be uploaded",
-        multipleReceivers: "Additional encryption keys (public keys only)",
-        pubkey: "Paste public key",
-        pubkeyLabel: "Public keys (SHA-256)",
-        pubkeyError: "Please enter a valid ssh-ed25519 or Crypt4GH public key",
-        noRecipients: "No public keys added",
-        addkey: "Add key",
         dropMsg: "Select files",
         normup: "Upload",
         empty: "No files selected",
@@ -339,7 +333,6 @@ let default_translations = {
         uploadedToShared:
           "and all members in other projects which " +
           "have access to this shared folder.",
-        advancedOptions: "Advanced encryption options",
       },
       route: {
         title: "Switch project",
@@ -864,12 +857,6 @@ let default_translations = {
         uploadDestination: "Kohdekansio: ",
         upload_step1: "Luo uusi kansio",
         upload_step2: "Ladattavat tiedostot",
-        multipleReceivers: "Lisää salausavaimia (vain julkiset avaimet)",
-        addkey: "Lisää avain",
-        pubkey: "Liitä julkinen avain",
-        pubkeyLabel: "Julkiset avaimet (SHA-256)",
-        pubkeyError: "Anna kelvollinen ssh-ed25519 tai Crypt4GH julkinen avain",
-        noRecipients: "Ei lisättyjä julkisia avaimia",
         dropMsg: "Valitse tiedostot",
         normup: "Lähetä",
         empty: "Ei valittuja tiedostoja",
@@ -885,7 +872,6 @@ let default_translations = {
         uploadedToShared:
           "ja myös kaikille jäsenille muissa projekteissa, " +
           "joilla on pääsy tähän jaettuun kansioon.",
-        advancedOptions: "Edistyneitä salausvaihtoehtoja",
       },
       route: {
         title: "Vaihda projektia",
