@@ -82,10 +82,10 @@ let default_translations = {
         shared_with_view:
           "You can browse this folder. (@:message.share.view_perm)",
         shared_with_read:
-          "You can copy this folder and download files in decrypted format. " +
+          "You can copy this folder and download files. " +
           "(@:message.share.read_perm)",
         shared_with_read_write:
-          "You can copy this folder and download files in decrypted format. " +
+          "You can copy this folder and download files. " +
           "You can upload new files or delete existing files from this " +
           "folder. (@:message.share.write_perm)",
       },
@@ -169,7 +169,7 @@ let default_translations = {
         read_perm: "Transfer data",
         read_perm_desc:
           ": The recipient project's members can copy your folder " +
-          "and download files in decrypted format. Use this when you want to " +
+          "and download files. Use this when you want to " +
           "transfer your data to another project.",
         write_perm: "Collaborate",
         write_perm_desc:
