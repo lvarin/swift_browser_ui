@@ -43,13 +43,11 @@ let bucket_overrides = {
         shared_with_view:
           "You can browse this container. (@:message.share.view_perm)",
         shared_with_read:
-          "You can copy this container and download files in decrypted" +
-          "format." +
+          "You can copy this container and download objects." +
           " (@:message.share.read_perm)",
         shared_with_read_write:
-          "You can copy this container and download files in decrypted" +
-            "format." +
-          " You can upload new files or delete existing files from this " +
+          "You can copy this container and download objects."  +
+          " You can upload new objects or delete existing objects from this " +
           "container. (@:message.share.write_perm)",
       },
       table: {
@@ -60,6 +58,7 @@ let bucket_overrides = {
       },
       tableOptions: {
         render: "Display as containers",
+        text: "Display as object paths",
       },
       share: {
         share_id_tooltip:
@@ -82,17 +81,17 @@ let bucket_overrides = {
         view_perm_desc:
           ": The recipient project's members can only " +
           "view the container content. Use this when you " +
-          "need maximum certainty that your files are not distributed " +
+          "need maximum certainty that your objects are not distributed " +
           "further. Note that you have to be also the project manager of " +
           "the recipient project.",
         read_perm_desc:
           ": The recipient project's members can copy your container " +
-          "and download files in decrypted format. Use this when you want to " +
+          "and download objects. Use this when you want to " +
           "transfer your data to another project.",
         write_perm_desc:
           ": In addition to @:message.share.read_perm permission, " +
-          "the recipient project's members can upload new files or delete " +
-          "existing files from your container. Use this when " +
+          "the recipient project's members can upload new objects or delete " +
+          "existing objects from your container. Use this when " +
           "you want the container to be your shared workspace.",
         shared_successfully: "container was shared successfully!",
         shared_table_title: "This container is shared with",
@@ -106,17 +105,22 @@ let bucket_overrides = {
       },
       containers: "Containers - ",
       download: {
-        files: "Files can only be downloaded " +
-          "individually because there are file or subcontainer names longer " +
-          "than 99 characters.",
-        warnTempFiles: "Opening temporary files or containers " +
+        files: "Objects can only be downloaded " +
+          "individually because there are object or subcontainer names longer" +
+          " than 99 characters.",
+        gathering: "Gathering a list of objects",
+        warnTempFiles: "Opening temporary objects or containers " +
           "(.crdownload, .crswap) may interrupt the process.",
       },
       upload: {
+        duplicate: "Objects with the same paths are not allowed.",
+        sizeZero: "Empty objects cannot be uploaded.",
         viewDestinationFolder: "View destination container",
+        addFiles: "Please add objects to upload.",
         accessFail: "Container could not be accessed.",
       },
       copyfail: "Failed to copy the container",
+      notDecryptable: "Some requested objects could not be decrypted.",
       container_ops: {
         addContainer: "Create new container",
         norename:
@@ -133,6 +137,13 @@ let bucket_overrides = {
         deleteManySuccess: "Subcontainers were deleted.",
       },
       objects: {
+        file: "Object ",
+        files: "Objects ",
+        overwriteConfirm: " already exists. Do you want to replace " +
+        "this object? (Previous object will be lost.)",
+        overwriteConfirmMany:
+          " already exist. Do you want to replace these objects? " +
+          "(Previous objects will be lost.)",
         deleteSharedObjects:
           "This action will permanently delete " +
           "items from a shared container. " +
@@ -143,15 +154,24 @@ let bucket_overrides = {
         name_newFolder: "Name new container",
       },
       encrypt: {
+        uploadFiles: "Upload objects",
         uploadDestination: "Destination container: ",
         upload_step1: "Create a new container",
+        upload_step2: "Objects to be uploaded",
+        dropMsg: "Select objects",
         uploadedToShared:
           "and all members in other projects which " +
           "have access to this shared container.",
+        empty: "No objects selected",
+        uploadedFiles:
+          "Uploaded objects will be shared with all project members in ",
       },
       search: {
         container: "Container",
         folder: "Subcontainer",
+        buildingIndex:
+        "This project has a large number of objects. Please " +
+        "wait a moment and try again.",
       },
     },
     label: {
