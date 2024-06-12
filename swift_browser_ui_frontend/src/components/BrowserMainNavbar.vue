@@ -41,7 +41,7 @@
             >
               <i
                 class="mdi pr-3 menu-icon"
-                :class="item.icon"
+                :class="bucketIconClass"
               />
               <span />
             </button>
@@ -121,6 +121,7 @@ export default {
       currentLang: "",
       extLinkIcon: mdiOpenInNew,
       projectInfoLink: "",
+      isBucketIconActive: false,
     };
   },
   computed: {
@@ -132,6 +133,9 @@ export default {
     },
     locale () {
       return this.$i18n.locale;
+    },
+    bucketIconClass() {
+      return this.isBucketIconActive ? "mdi-bucket" : "mdi-folder";
     },
   },
   watch: {
@@ -247,6 +251,7 @@ export default {
       }, 300);
     },
     toggleBucketOverrides() {
+      this.isBucketIconActive = !this.isBucketIconActive;
       toggleBucketOverrides();
     },
   },
