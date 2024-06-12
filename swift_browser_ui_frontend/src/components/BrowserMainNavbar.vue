@@ -16,13 +16,6 @@
 
       <c-spacer />
 
-      <button
-        class="toggle-bucket-btn"
-        @click="toggleBucketOverrides"
-      >
-        🪣
-      </button>
-
       <div class="desktop-menu">
         <c-menu
           v-for="item of navigationMenuItems"
@@ -38,11 +31,28 @@
           }))"
           :data-testid="item.testid"
         >
-          <i
-            class="mdi pr-3 menu-icon"
-            :class="item.icon"
-          />
-          <span class="menu-active">{{ item.title }}</span>
+          <div
+            v-if="item.title === ''"
+            class="menu-item-content"
+          >
+            <button
+              class="toggle-bucket-btn"
+              @click="toggleBucketOverrides"
+            >
+              <i
+                class="mdi pr-3 menu-icon"
+                :class="item.icon"
+              />
+              <span />
+            </button>
+          </div>
+          <div v-else>
+            <i
+              class="mdi pr-3 menu-icon"
+              :class="item.icon"
+            />
+            <span class="menu-active">{{ item.title }}</span>
+          </div>
         </c-menu>
       </div>
 
@@ -144,6 +154,12 @@ export default {
     setNavigationMenu() {
       this.navigationMenuItems = [];
       const menuArr = [
+        {
+          title: "",
+          icon: "mdi-folder",
+          testid: "bucket-selector",
+          subs: [],
+        },
         {
           title: this.currentLang,
           icon: "mdi-web",
@@ -250,17 +266,20 @@ export default {
 }
 
 .toggle-bucket-btn {
-  color: $csc-primary; /* Assuming this is the color used in your navbar */
-  font-size: 1.1rem; /* Matching the.app-name font size */
-  margin-left: 2rem; /* Adjust as needed to match spacing */
-  background-color: transparent; /* No background to match text links */
+  color: $csc-primary;
+  font-size: 1.1rem;
+  margin-left: 2rem;
+  background-color: transparent;
   border: none;
-  color: $csc-primary; /* Use the same color as text */
-  padding: 0; /* Adjust padding as needed */
+  padding: 8px 16px;
+  color: $csc-primary;
+  padding: 0;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
+  width: 100%;
 }
 
 .app-name {
