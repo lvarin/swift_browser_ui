@@ -16,48 +16,48 @@ let bucket_overrides = {
         ],
       },
       error: {
-        inUse: "Container name is already in use.",
-        inUseOtherPrj: "Container name is already in use by another project.",
-        invalidName: "Container name or tag is invalid.",
-        createFail: "Container creation failed.",
-        forbiddenChars: "Container name cannot contain special " +
+        inUse: "Bucket name is already in use.",
+        inUseOtherPrj: "Bucket name is already in use by another project.",
+        invalidName: "Bucket name or tag is invalid.",
+        createFail: "Bucket creation failed.",
+        forbiddenChars: "Bucket name cannot contain special " +
         "characters other than dot(.), hyphen(-), and underscore(_)",
-        segments: "Container name cannot end with '_segments'",
+        segments: "Bucket name cannot end with '_segments'",
       },
-      dropFiles: "Drag and drop containers here or ",
-      createFolder: "Create container",
+      dropFiles: "Drag and drop buckets here or ",
+      createFolder: "Create bucket",
       program_name: "Allas Web UI",
       program_description: "Allas Web UI provides a simple-to-use web user " +
           "interface for CSC Object Storage service, Allas.",
       helplink: "https://docs.csc.fi/data/Allas/",
       folderTabs: {
-        all: "All containers",
-        sharedFrom: "Containers you have shared",
-        sharedTo: "Containers shared with you",
+        all: "All buckets",
+        sharedFrom: "Buckets you have shared",
+        sharedTo: "Buckets shared with you",
       },
       folderDetails: {
-        notShared: "This container isn't shared with other projects.",
-        sharing_to_one_project: "This container is shared to one project.",
-        sharing_to_many_projects: "This container is shared to multiple" +
+        notShared: "This bucket isn't shared with other projects.",
+        sharing_to_one_project: "This bucket is shared to one project.",
+        sharing_to_many_projects: "This bucket is shared to multiple" +
             "projects.",
         shared_with_view:
-          "You can browse this container. (@:message.share.view_perm)",
+          "You can browse this bucket. (@:message.share.view_perm)",
         shared_with_read:
-          "You can copy this container and download objects." +
+          "You can copy this bucket and download objects." +
           " (@:message.share.read_perm)",
         shared_with_read_write:
-          "You can copy this container and download objects."  +
+          "You can copy this bucket and download objects."  +
           " You can upload new objects or delete existing objects from this " +
-          "container. (@:message.share.write_perm)",
+          "bucket. (@:message.share.write_perm)",
       },
       table: {
-        source_project_id: "Share ID of this container",
-        back_to_all_folders: "Back to all containers",
-        back_to_sharing_folders: "Back to containers you have shared",
-        back_to_shared_folders: "Back to containers shared with you",
+        source_project_id: "Share ID of this bucket",
+        back_to_all_folders: "Back to all buckets",
+        back_to_sharing_folders: "Back to buckets you have shared",
+        back_to_shared_folders: "Back to buckets shared with you",
       },
       tableOptions: {
-        render: "Display as containers",
+        render: "Display as buckets",
         text: "Display as object paths",
       },
       share: {
@@ -66,75 +66,75 @@ let bucket_overrides = {
           "a unique 32-digit code associated with your {tooltipb} " +
           "project. Provide the Share ID to members " +
           "of other projects (e.g., via email) so that they can " +
-          "share containers with you.",
-        instructions: "How to share a container",
-        share_title: "Share container",
+          "share buckets with you.",
+        instructions: "How to share a bucket",
+        share_title: "Share bucket",
         share_guide_intro:
-          "To share a container with another project you need to:",
+          "To share a bucket with another project you need to:",
         share_guide_step1:
           "You need to know in advance " +
           "the Share ID (a 32-digit code) associated " +
-          "with the project you want to share a container with. The " +
+          "with the project you want to share a bucket with. The " +
           "recipient can copy the Share ID from the user " +
           "interface and provide it to you via email. You can share " +
-          "a container with multiple projects.",
+          "a bucket with multiple projects.",
         view_perm_desc:
           ": The recipient project's members can only " +
-          "view the container content. Use this when you " +
+          "view the bucket content. Use this when you " +
           "need maximum certainty that your objects are not distributed " +
           "further. Note that you have to be also the project manager of " +
           "the recipient project.",
         read_perm_desc:
-          ": The recipient project's members can copy your container " +
+          ": The recipient project's members can copy your bucket " +
           "and download objects. Use this when you want to " +
           "transfer your data to another project.",
         write_perm_desc:
           ": In addition to @:message.share.read_perm permission, " +
           "the recipient project's members can upload new objects or delete " +
-          "existing objects from your container. Use this when " +
-          "you want the container to be your shared workspace.",
-        shared_successfully: "container was shared successfully!",
-        shared_table_title: "This container is shared with",
-        fail_duplicate: "The project already has access to the container.",
+          "existing objects from your bucket. Use this when " +
+          "you want the bucket to be your shared workspace.",
+        shared_successfully: "Bucket was shared successfully!",
+        shared_table_title: "This bucket is shared with",
+        fail_duplicate: "The project already has access to the bucket.",
       },
-      emptyContainer: "This container has no content.",
+      emptyContainer: "This bucket has no content.",
       emptyProject: {
-        all: "There are no containers in this project.",
-        sharedFrom: "You haven't shared any containers.",
-        sharedTo: "No containers have been shared with you.",
+        all: "There are no buckets in this project.",
+        sharedFrom: "You haven't shared any buckets.",
+        sharedTo: "No buckets have been shared with you.",
       },
-      containers: "Containers - ",
+      containers: "Buckets - ",
       download: {
         files: "Objects can only be downloaded " +
-          "individually because there are object or subcontainer names longer" +
+          "individually because there are object or subbucket names longer" +
           " than 99 characters.",
         gathering: "Gathering a list of objects",
-        warnTempFiles: "Opening temporary objects or containers " +
+        warnTempFiles: "Opening temporary objects or buckets " +
           "(.crdownload, .crswap) may interrupt the process.",
       },
       upload: {
         duplicate: "Objects with the same paths are not allowed.",
         sizeZero: "Empty objects cannot be uploaded.",
-        viewDestinationFolder: "View destination container",
+        viewDestinationFolder: "View destination bucket",
         addFiles: "Please add objects to upload.",
-        accessFail: "Container could not be accessed.",
+        accessFail: "Bucket could not be accessed.",
       },
-      copyfail: "Failed to copy the container",
+      copyfail: "Failed to copy the bucket",
       notDecryptable: "Some requested objects could not be decrypted.",
       container_ops: {
-        addContainer: "Create new container",
+        addContainer: "Create new bucket",
         norename:
-          "Please note that container names cannot be modified " +
-          "after creating a container.",
+          "Please note that bucket names cannot be modified " +
+          "after creating a bucket.",
         createdFolder:
-          "Created container will be shared with all project members in ",
-        deleteNote: "Container must be empty before " + "it can be deleted.",
-        deleteSuccess: "Container was deleted.",
-        folderName: "Container name",
+          "Created bucket will be shared with all project members in ",
+        deleteNote: "Bucket must be empty before " + "it can be deleted.",
+        deleteSuccess: "Bucket was deleted.",
+        folderName: "Bucket name",
       },
       subfolders: {
-        deleteOneSuccess: "Subcontainer was deleted.",
-        deleteManySuccess: "Subcontainers were deleted.",
+        deleteOneSuccess: "Subbucket was deleted.",
+        deleteManySuccess: "Subbuckets were deleted.",
       },
       objects: {
         file: "Object ",
@@ -146,37 +146,37 @@ let bucket_overrides = {
           "(Previous objects will be lost.)",
         deleteSharedObjects:
           "This action will permanently delete " +
-          "items from a shared container. " +
+          "items from a shared bucket. " +
           "Are you sure you want to proceed?",
       },
       replicate: {
-        copy_folder: "Copy container: ",
-        name_newFolder: "Name new container",
+        copy_folder: "Copy bucket: ",
+        name_newFolder: "Name new bucket",
       },
       encrypt: {
         uploadFiles: "Upload objects",
-        uploadDestination: "Destination container: ",
-        upload_step1: "Create a new container",
+        uploadDestination: "Destination bucket: ",
+        upload_step1: "Create a new bucket",
         upload_step2: "Objects to be uploaded",
         dropMsg: "Select objects",
         uploadedToShared:
           "and all members in other projects which " +
-          "have access to this shared container.",
+          "have access to this shared bucket.",
         empty: "No objects selected",
         uploadedFiles:
           "Uploaded objects will be shared with all project members in ",
       },
       search: {
-        container: "Container",
-        folder: "Subcontainer",
+        container: "Bucket",
+        folder: "Subbucket",
         buildingIndex:
         "This project has a large number of objects. Please " +
         "wait a moment and try again.",
       },
     },
     label: {
-      folder_tabs: "different types of containers",
-      searchbox: "search for containers",
+      folder_tabs: "different types of buckets",
+      searchbox: "search for buckets",
     },
   },
   fi: {
@@ -195,50 +195,50 @@ let bucket_overrides = {
         ],
       },
       error: {
-        inUse: "Kontin nimi on jo käytössä.",
-        inUseOtherPrj: "Kontin nimi on jo käytössä toisessa projektissa.",
-        invalidName: "Kontin nimi tai asiasana ei kelpaa.",
-        createFail: "Kontin luonti epäonnistui.",
-        forbiddenChars: "Kontin nimi ei voi sisältää muita " +
+        inUse: "Ämpärin nimi on jo käytössä.",
+        inUseOtherPrj: "Ämpärin nimi on jo käytössä toisessa projektissa.",
+        invalidName: "Ämpärin nimi tai asiasana ei kelpaa.",
+        createFail: "Ämpärin luonti epäonnistui.",
+        forbiddenChars: "Ämpärin nimi ei voi sisältää muita " +
         "erikoismerkkejä kuin piste(.), viiva(-) ja alaviiva(_)",
-        segments: "Kontin nimi ei saa päättyä '_segments'.",
+        segments: "Ämpärin nimi ei saa päättyä '_segments'.",
       },
-      dropFiles: "Vedä ja pudota kontit tähän tai ",
-      createFolder: "Luo Kontti",
+      dropFiles: "Vedä ja pudota ämpärit tähän tai ",
+      createFolder: "Luo Ämpäri",
       program_name: "Allas Web UI",
       program_description: "Allas Web UI tarjoaa yksinkertaisen " +
           "web-käyttöliittymän CSC:n Object Storage -palveluun, Altaaseen.",
       helplink: "https://docs.csc.fi/data/Allas/",
       folderTabs: {
-        all: "Kaikki kontit",
-        sharedFrom: "Jakamasi kontit",
-        sharedTo: "Sinulle jaetut kontit",
+        all: "Kaikki ämpärit",
+        sharedFrom: "Jakamasi ämpärit",
+        sharedTo: "Sinulle jaetut ämpärit",
       },
       folderDetails: {
-        notShared: "Tätä konttia ei ole jaettu toiselle projektille.",
-        sharing_to_one_project: "Tämä kontti on jaettu yhdelle projektille.",
-        sharing_to_many_projects: "Tämä kontti on jaettu useille projekteille.",
+        notShared: "Tätä ämpäriä ei ole jaettu toiselle projektille.",
+        sharing_to_one_project: "Tämä ämpäri on jaettu yhdelle projektille.",
+        sharing_to_many_projects: "Tämä ämpäri on jaettu useille projekteille.",
         shared_with_view:
-          "Voit tarkastella tätä konttia. (@:message.share.view_perm)",
+          "Voit tarkastella tätä ämpäriä. (@:message.share.view_perm)",
         shared_with_read:
-          "Voit kopioida konttisi, ladata " +
-          "objekteja tässä kontissa ja purkaa kontin sisällön " +
+          "Voit kopioida ämpärisi, ladata " +
+          "objekteja tässä ämpärissä ja purkaa ämpärin sisällön " +
           "salauksen. (@:message.share.read_perm)",
         shared_with_read_write:
           "Voit kopioida ja ladata " +
-          "objekteja sekä purkaa kontin sisällön salauksen. " +
-          "Voit lähettää uusia tai poistaa jo kontissa olevia objekteja. " +
+          "objekteja sekä purkaa ämpärin sisällön salauksen. " +
+          "Voit lähettää uusia tai poistaa jo ämpärissä olevia objekteja. " +
           "(@:message.share.write_perm)",
       },
       table: {
-        folderDetails: "Ei yksityiskohtia kontteille",
+        folderDetails: "Ei yksityiskohtia ämpäreille",
         fileDown: "Objektin lataus",
         item: "Objekti",
         items: "Objektit",
         itemsPerPage: "Objektit sivulla: ",
       },
       tableOptions: {
-        render: "Näytä objektit konteissa",
+        render: "Näytä objektit ämpäreissä",
         text: "Näytä objektit polkuina",
       },
       share: {
@@ -246,74 +246,74 @@ let bucket_overrides = {
           "Tällä toiminnolla voit kopioida jakamistunnuksen: uniikin " +
           "32-numeroisen koodin, joka on yhdistetty {tooltipb} " +
           "projektiin. Lähetä tunnus (esim. sähköpostilla) muiden projektien " +
-          "jäsenille, niin he voivat jakaa kontteja sinulle.",
-        instructions: "Kuinka jaan kontin",
-        share_title: "Jaa kontti",
-        share_guide_intro: "Kun haluat jakaa kontin toisen projektin kanssa: ",
+          "jäsenille, niin he voivat jakaa ämpäreitä sinulle.",
+        instructions: "Kuinka jaan ämpärin",
+        share_title: "Jaa ämpäri",
+        share_guide_intro: "Kun haluat jakaa ämpärin toisen projektin kanssa: ",
         share_guide_step1:
           "Sinun tulee tietää " +
           "vastaanottavan projektin jakamistunnus (32-numeroinen " +
           "koodi). Vastaanottaja voi kopioida " +
           "jakamistunnuksen Kopioi jakamistunnus -napilla " +
           "ja lähettää sen sinulle esim. sähköpostilla. " +
-          "Voit jakaa kontin useiden projektien kanssa.",
+          "Voit jakaa ämpärin useiden projektien kanssa.",
         view_perm_desc:
-          ": Vastaanottavan projektin jäsenet voivat tarkastella kontin " +
+          ": Vastaanottavan projektin jäsenet voivat tarkastella ämpärin " +
           "sisältöä. Käytä tätä, kun tarvitset varmuuden, ettei " +
           "ojektijasi jaeta eteenpäin. Huomaa, että " +
           "sinun tulee olla myös vastaanottavan projektin omistaja.",
         read_perm: "Siirrä objektit",
         read_perm_desc:
-          ": Vastaanottavan projektin jäsenet voivat kopioida konttisi " +
-          ", ladata objektit sekä purkaa kontin sisällön salauksen. " +
+          ": Vastaanottavan projektin jäsenet voivat kopioida ämpärisi " +
+          ", ladata objektit sekä purkaa ämpärin sisällön salauksen. " +
           "Käytä tätä, kun haluat siirtää objektejasi toiselle projektille.",
         write_perm_desc:
           ": @:message.share.read_perm -oikeuksien lisäksi vastaanottavan " +
-          "projektin jäsenet voivat lähettää uusia tai poistaa jo kontissa " +
+          "projektin jäsenet voivat lähettää uusia tai poistaa jo ämpärissä " +
           "olevia objekteja. Käytä tätä, kun haluat käyttää " +
-          "konttia jaettuna työtilana.",
-        shared_successfully: "Kontin jakaminen onnistui.",
-        shared_table_title: "Tämä kontti on jaettu",
-        fail_duplicate: "Kontti on jo jaettu kyseiselle projektille.",
-        emptyContainer: "Tämä kontti on tyhjä.",
+          "ämpäriä jaettuna työtilana.",
+        shared_successfully: "Ämpärin jakaminen onnistui.",
+        shared_table_title: "Tämä ämpäri on jaettu",
+        fail_duplicate: "Ämpäri on jo jaettu kyseiselle projektille.",
+        emptyContainer: "Tämä ämpäri on tyhjä.",
       },
       emptyProject: {
-        all: "Tässä projektissa ei ole kontteja.",
-        sharedFrom: "Et ole jakanut yhtään konttia.",
-        sharedTo: "Sinulle ei ole jaettu kontteja.",
+        all: "Tässä projektissa ei ole ämpäreitä.",
+        sharedFrom: "Et ole jakanut yhtään ämpäriä.",
+        sharedTo: "Sinulle ei ole jaettu ämpäreitä.",
       },
-      containers: "Kontit - ",
+      containers: "Ämpärit - ",
       download: {
         files: "Objektit voidaan ladata vain " +
           "erikseen, koska objektien tai alikontioiden nimet ovat " +
           "yli 99 merkkiä pitkiä.",
         gathering: "Haetaan listaa objektitiedostoista",
-        warnTempFiles: "Väliaikaisten objektien tai kontioiden " +
+        warnTempFiles: "Väliaikaisten objektien tai ämpäreiden " +
         "(.crdownload, .crswap) avaaminen voi keskeyttää latauksen.",
       },
       upload: {
         duplicate: "Objektit, joilla on samat polut, eivät ole sallittuja.",
         sizeZero: "Tyhjiä objekteja ei voi lähettää.",
-        viewDestinationFolder: "Näytä kohdekontti",
+        viewDestinationFolder: "Näytä kohdeämpäri",
         uploadedItems: "Lähetetyt objektit näytetään pian",
         addFiles: "Lisää ladattavat objektit.",
-        accessFail: "Konttiin ei ole pääsyä.",
+        accessFail: "Ämpäriin ei ole pääsyä.",
       },
-      copysuccess: "Konttia kopioidaan",
-      copyfail: "Kontin kopiointi epäonnistui",
+      copysuccess: "Ämpäriä kopioidaan",
+      copyfail: "Ämpärin kopiointi epäonnistui",
       notDecryptable: "Salauksen purkaminen epäonnistui osassa objekteista.",
       container_ops: {
-        addContainer: "Luo uusi Kontti",
+        addContainer: "Luo uusi Ämpäri",
         norename:
-          "Konttia ei voi nimetä uudelleen, " +
+          "Ämpäriä ei voi nimetä uudelleen, " +
           "mutta sen voi kopioida uudella nimellä.",
-        createdFolder: "Luotu kontti jaetaan kaikille jäsenille projektissa ",
+        createdFolder: "Luotu ämpäri jaetaan kaikille jäsenille projektissa ",
         viewProjectMembers: "Näytä projektin jäsenet",
         deleteNote:
-          "Kontin poistaminen edellyttää kaikkien " +
+          "Ämpärin poistaminen edellyttää kaikkien " +
           "objektien poistamista ensin.",
-        deleteSuccess: "Kontti poistettu",
-        folderName: "Kontin nimi",
+        deleteSuccess: "Ämpäri poistettu",
+        folderName: "Ämpärin nimi",
       },
       subfolders: {
         deleteNote:
@@ -329,7 +329,7 @@ let bucket_overrides = {
           " on jo olemassa. Haluatko korvata objektin? " +
           "(Edellinen objekti poistetaan.)",
         overwriteConfirmMany:
-          " ovat jo olemassa. Haluatko korvata Objektit? " +
+          " ovat jo olemassa. Haluatko korvata objektit? " +
           "(Edelliset objektit poistetaan.)",
         deleteConfirm: "Poista objektit",
         deleteObjects: "Poista objektit",
@@ -337,20 +337,20 @@ let bucket_overrides = {
         deleteOneSuccess: " objekti poistettu",
         deleteSharedObjects:
          "Tällä toiminnolla poistat " +
-         "objektit jaetusta kontiosta pysyvästi. " +
+         "objektit jaetusta ämpäristä pysyvästi. " +
          "Haluatko varmasti poistaa nämä objektit?",
         deleteObjectsMessage:
           "Objekteja ei voi palauttaa poistamisen jälkeen. " +
           "Haluatko varmasti poistaa nämä objektit?",
       },
       replicate: {
-        copy_folder: "Kopioi kontti: ",
-        name_newFolder: "Nimeä uusi kontti",
+        copy_folder: "Kopioi ämpäri: ",
+        name_newFolder: "Nimeä uusi ämpäri",
       },
       encrypt: {
         uploadFiles: "Lataa objektit",
-        uploadDestination: "Kohdekontti: ",
-        upload_step1: "Luo uusi kontti",
+        uploadDestination: "Kohdeämpäri: ",
+        upload_step1: "Luo uusi ämpäri",
         upload_step2: "Ladattavat objektit",
         dropMsg: "Valitse objektit",
         empty: "Ei valittuja objekteja",
@@ -358,10 +358,10 @@ let bucket_overrides = {
           "Lähetetyt objektit jaetaan kaikille jäsenille projektissa ",
         uploadedToShared:
           "ja myös kaikille jäsenille muissa projekteissa, " +
-          "joilla on pääsy tähän jaettuun konttiin.",
+          "joilla on pääsy tähän jaettuun ämpäriin.",
       },
       search: {
-        container: "Kontti",
+        container: "Ämpäri",
         object: "Objekti",
         folder: "Alikontti",
         objects: "Objektit",
@@ -383,8 +383,8 @@ let bucket_overrides = {
       },
     },
     label: {
-      folder_tabs: "erityyppisiä kontteja",
-      searchbox: "etsi kontteja",
+      folder_tabs: "erityyppisiä ämpäreitä",
+      searchbox: "etsi ämpäreitä",
     },
   },
 };
