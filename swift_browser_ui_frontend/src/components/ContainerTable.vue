@@ -34,6 +34,7 @@ import {
   mdiShareVariantOutline,
   mdiDotsHorizontal,
   mdiFolder,
+  mdiBucket,
 } from "@mdi/js";
 import {
   toggleEditTagsModal,
@@ -89,6 +90,7 @@ export default {
       sortBy: "name",
       sortDirection: "asc",
       abortController: null,
+      iconPath: "",
     };
   },
   computed: {
@@ -106,6 +108,9 @@ export default {
     },
   },
   watch: {
+    "$store.getters.iconIndexnum"() {
+      this.setIconPath();
+    },
     disablePagination() {
       this.getPage();
     },
@@ -133,6 +138,7 @@ export default {
     },
   },
   created() {
+    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -144,6 +150,12 @@ export default {
   },
   expose: ["toFirstPage"],
   methods: {
+    setIconPath() {
+      const icons = [mdiFolder, mdiBucket];
+      const iconClass = icons[this.$store.getters.iconIndexnum];
+      this.iconPath = iconClass;
+      this.containers = this.conts;
+    },
     toFirstPage() {
       this.paginationOptions.currentPage = 1;
     },
@@ -206,7 +218,7 @@ export default {
                 params: {
                   href: "javascript:void(0)",
                   color: "dark-grey",
-                  path: mdiFolder,
+                  path: this.iconPath,
                   iconFill: "primary",
                   iconStyle: {
                     marginRight: "1rem",
