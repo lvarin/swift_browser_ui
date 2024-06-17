@@ -37,7 +37,7 @@
           >
             <button
               class="toggle-bucket-btn"
-              @click="toggleBucketOverrides"
+              @click="toggleBucket"
             >
               <i
                 class="mdi pr-3 menu-icon"
@@ -135,7 +135,7 @@ export default {
       return this.$i18n.locale;
     },
     iconIndex () {
-      const icons = ["mdi-folder", "mdi-package", "mdi-bucket"];
+      const icons = ["mdi-folder", "mdi-bucket"];
       return icons[this.iconIndexnum];
     },
   },
@@ -251,11 +251,10 @@ export default {
         tokenInput.focus();
       }, 300);
     },
-    toggleBucketOverrides() {
-      this.iconIndexnum = (this.iconIndexnum + 1) % 3;
-      if (this.iconIndexnum !== 2) {
-        toggleBucketOverrides();
-      }
+    toggleBucket() {
+      this.iconIndexnum = this.iconIndexnum === 0? 1 : 0;
+      toggleBucketOverrides();
+      this.$store.dispatch("updateIconIndexnum", this.iconIndexnum);
     },
   },
 };
