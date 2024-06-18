@@ -5,7 +5,7 @@
     <BreadcrumbNav @breadcrumbClicked="breadcrumbClickHandler" />
     <div class="folder-info">
       <div class="folder-info-heading">
-        <i class="mdi mdi-folder-outline" />
+        <i :class="['mdi', dynamicIconClass]" />
         <span>{{ containerName }}</span>
       </div>
       <ul class="folder-details">
@@ -211,6 +211,10 @@ export default {
     },
     shareModal() {
       return this.$store.state.openShareModal;
+    },
+    dynamicIconClass() {
+      const icons = ["mdi-folder-outline", "mdi-bucket-outline"];
+      return icons[this.$store.getters.iconIndexnum];
     },
   },
   watch: {
