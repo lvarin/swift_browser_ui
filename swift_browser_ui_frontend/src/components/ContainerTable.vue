@@ -154,7 +154,7 @@ export default {
       const icons = [mdiFolder, mdiBucket];
       const iconClass = icons[this.$store.getters.iconIndexnum];
       this.iconPath = iconClass;
-      this.containers = this.conts;
+      this.getPage();
     },
     toFirstPage() {
       this.paginationOptions.currentPage = 1;
