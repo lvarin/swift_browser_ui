@@ -214,6 +214,7 @@ export default {
     },
     dynamicIconClass() {
       const icons = ["mdi-folder-outline", "mdi-bucket-outline"];
+      this.getFolderSharedStatus();
       return icons[this.$store.getters.iconIndexnum];
     },
   },
