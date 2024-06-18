@@ -31,28 +31,11 @@
           }))"
           :data-testid="item.testid"
         >
-          <div
-            v-if="item.title === ''"
-            class="menu-item-content"
-          >
-            <button
-              class="toggle-bucket-btn"
-              @click="toggleBucket"
-            >
-              <i
-                class="mdi pr-3 menu-icon"
-                :class="iconIndex"
-              />
-              <span />
-            </button>
-          </div>
-          <div v-else>
-            <i
-              class="mdi pr-3 menu-icon"
-              :class="item.icon"
-            />
-            <span class="menu-active">{{ item.title }}</span>
-          </div>
+          <i
+            class="mdi pr-3 menu-icon"
+            :class="item.icon"
+          />
+          <span class="menu-active">{{ item.title }}</span>
         </c-menu>
       </div>
 
@@ -134,10 +117,6 @@ export default {
     locale () {
       return this.$i18n.locale;
     },
-    iconIndex () {
-      const icons = ["mdi-folder", "mdi-bucket"];
-      return icons[this.iconIndexnum];
-    },
   },
   watch: {
     active () {
@@ -161,10 +140,15 @@ export default {
       this.navigationMenuItems = [];
       const menuArr = [
         {
-          title: "",
-          icon: "mdi-folder",
+          title: this.iconIndexnum === 0 ? "Folders" : "Buckets",
+          icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-bucket",
           testid: "bucket-selector",
-          subs: [],
+          subs: [
+            {
+              title: this.iconIndexnum === 0 ? "Buckets" : "Folders",
+              action: () => this.toggleBucket(),
+            },
+          ],
         },
         {
           title: this.currentLang,
@@ -252,9 +236,11 @@ export default {
       }, 300);
     },
     toggleBucket() {
-      this.iconIndexnum = this.iconIndexnum === 0? 1 : 0;
+      this.iconIndexnum = this.iconIndexnum === 0 ? 1 : 0;
       toggleBucketOverrides();
       this.$store.dispatch("updateIconIndexnum", this.iconIndexnum);
+      this.setNavigationMenu();
+
     },
   },
 };
@@ -271,23 +257,6 @@ export default {
   align-items: center;
   padding: 0 1rem;
   box-shadow: rgba(0, 0, 0, 0.16) 2px 4px 10px;
-}
-
-.toggle-bucket-btn {
-  color: $csc-primary;
-  font-size: 1.1rem;
-  margin-left: 2rem;
-  background-color: transparent;
-  border: none;
-  padding: 8px 16px;
-  color: $csc-primary;
-  padding: 0;
-  text-align: center;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
 }
 
 .app-name {
