@@ -139,12 +139,16 @@ export default {
       this.navigationMenuItems = [];
       const menuArr = [
         {
-          title: this.iconIndexnum === 0 ? "Folders" : "Buckets",
+          title: this.iconIndexnum === 0 ?
+            this.$t("message.containerFolder")
+            : this.$t("message.containerBucket"),
           icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-bucket",
           testid: "bucket-selector",
           subs: [
             {
-              title: this.iconIndexnum === 0 ? "Buckets" : "Folders",
+              title: this.iconIndexnum === 0 ?
+                this.$t("message.containerBucket")
+                : this.$t("message.containerFolder"),
               action: () => this.toggleBucket(),
             },
           ],

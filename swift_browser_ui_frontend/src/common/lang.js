@@ -203,6 +203,8 @@ let default_translations = {
       },
       sharing: "Sharing - ",
       containers: "Folders - ",
+      containerFolder: "Folders",
+      containerBucket: "Buckets",
       download: {
         download: " Download",
         files: "Files can only be downloaded " +
@@ -739,6 +741,8 @@ let default_translations = {
       },
       sharing: "Jako - ",
       containers: "Kansiot - ",
+      containerFolder: "Kansiot",
+      containerBucket: "Ämpärit",
       download: {
         download: " Lataa",
         files: "Tiedostot voidaan ladata vain " +
