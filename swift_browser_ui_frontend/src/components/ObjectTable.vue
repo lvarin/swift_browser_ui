@@ -213,7 +213,7 @@ export default {
       return this.$store.state.openShareModal;
     },
     dynamicIconClass() {
-      const icons = ["mdi-folder-outline", "mdi-bucket-outline"];
+      const icons = ["mdi-folder-outline", "mdi-pail-outline"];
       this.getFolderSharedStatus();
       return icons[this.$store.getters.iconIndexnum];
     },

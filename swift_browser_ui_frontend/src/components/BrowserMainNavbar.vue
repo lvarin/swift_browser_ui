@@ -142,7 +142,7 @@ export default {
           title: this.iconIndexnum === 0 ?
             this.$t("message.containerFolder")
             : this.$t("message.containerBucket"),
-          icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-bucket",
+          icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-pail",
           testid: "bucket-selector",
           subs: [
             {

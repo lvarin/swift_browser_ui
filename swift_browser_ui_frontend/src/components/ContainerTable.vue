@@ -33,7 +33,7 @@ import {
   mdiShareVariantOutline,
   mdiDotsHorizontal,
   mdiFolder,
-  mdiBucket,
+  mdiPail,
 } from "@mdi/js";
 import {
   toggleEditTagsModal,
@@ -150,7 +150,7 @@ export default {
   expose: ["toFirstPage"],
   methods: {
     setIconPath() {
-      const icons = [mdiFolder, mdiBucket];
+      const icons = [mdiFolder, mdiPail];
       const iconClass = icons[this.$store.getters.iconIndexnum];
       this.iconPath = iconClass;
       this.getPage();
