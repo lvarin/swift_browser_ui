@@ -378,6 +378,7 @@ let default_translations = {
         description: "Log in with your user credentials.",
         uname: "Username",
         pwd: "Password",
+        login: "Log in",
       },
       supportMenu: {
         userGuide: "User guide",
@@ -918,6 +919,7 @@ let default_translations = {
         description: "Kirjaudu käyttäen käyttäjätunnustasi.",
         uname: "Käyttäjänimi",
         pwd: "Salasana",
+        login: "Kirjaudu",
       },
       supportMenu: {
         userGuide: "Käyttöohje",

@@ -52,7 +52,7 @@
                     slot="icon"
                     class="mdi mdi-login"
                   />
-                  {{ $t('message.index.logIn') }}
+                  {{ $t('message.pwdlogin.login') }}
                 </c-button>
                 <input
                   type="submit"
