@@ -54,6 +54,7 @@ import {
   mdiPencilOutline,
   mdiDeleteOutline,
   mdiFolder ,
+  mdiPail,
 } from "@mdi/js";
 
 export default {
@@ -130,6 +131,9 @@ export default {
     },
   },
   watch: {
+    "$store.getters.iconIndexnum"() {
+      this.setIconPath();
+    },
     prefix() {
       this.getPage();
     },
@@ -139,6 +143,7 @@ export default {
     },
   },
   created() {
+    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -157,6 +162,12 @@ export default {
       checkIfItemIsLastOnPage(this.paginationOptions);
   },
   methods: {
+    setIconPath() {
+      const icons = [mdiFolder, mdiPail];
+      const iconClass = icons[this.$store.getters.iconIndexnum];
+      this.iconPath = iconClass;
+      this.getPage();
+    },
     handlePopState(event) {
       // reset page to 1 after reversing a page
       if (event.type === "popstate") {
@@ -183,7 +194,7 @@ export default {
               params: {
                 href: "javascript:void(0)",
                 color: "dark-grey",
-                path: mdiFolder,
+                path: this.iconPath,
                 iconFill: "primary",
                 iconStyle: {
                   marginRight: "1rem",

@@ -442,3 +442,5 @@ updateIconIndexnum: function ({ commit }, payload) {
 6. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ContainerTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
 
 7. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ObjectTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
+
+8. **Changes in `$REPO/swift_browser_ui_frontend/src/components/CObjectTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
