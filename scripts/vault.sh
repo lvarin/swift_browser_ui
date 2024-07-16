@@ -2,10 +2,8 @@
 
 set -e
 
-# This script starts and configures a vault server in development mode with c4ghtransit plugin enabled
-# and applies the pre-defined configuration to work the the backend server
-
-# The vault server replaces the bash process, so this script works well under a process manager
+# This script starts and configures a Vault server with c4ghtransit plugin enabled
+# and applies the pre-defined configuration to work with the backend server
 
 # Dependencies
 # - swift-browser-ui
@@ -25,15 +23,24 @@ SWIFT_BROWSER_UI_DIR=${SWIFT_BROWSER_UI_DIR:-$ROOT}
 
 function initVault {
     cd "$SWIFT_BROWSER_UI_DIR"
-    export VAULT_ADDR='http://127.0.0.1:8200'
-    wget --retry-connrefused --waitretry=1 --timeout=60 --spider http://127.0.0.1:8200/v1/sys/health?standbyok=true
-    vault login token=devroot
+    export VAULT_ADDR=${VAULT_URL%/v1}
+    # wait for vault to be running
+    wget --no-verbose --retry-connrefused --waitretry=1 --tries 10 --timeout=3 --spider "${VAULT_URL}/sys/health?standbyok=true"
+    vault login token=${VAULT_DEV_ROOT_TOKEN_ID}
     vault auth enable approle
     vault secrets enable c4ghtransit
-    vault policy write swiftbrowser "$SWIFT_BROWSER_UI_DIR"/.github/config/vault_policy.hcl
-    vault write auth/approle/role/swiftbrowser secret_id_ttl=0 secret_id_num_uses=0 token_ttl=5m token_max_ttl=5m token_num_uses=0 token_policies=swiftbrowser role_id=swiftbrowserui
-    vault write -format=json -f auth/approle/role/swiftbrowser/custom-secret-id secret_id=swiftui
+    vault policy write "$VAULT_ROLE" "$SWIFT_BROWSER_UI_DIR"/.github/config/vault_policy.hcl
+    vault write auth/approle/role/"$VAULT_ROLE" \
+        secret_id_ttl=0 \
+        secret_id_num_uses=0 \
+        token_ttl=5m \
+        token_max_ttl=5m \
+        token_num_uses=0 \
+        token_policies="$VAULT_ROLE" \
+        role_id="$VAULT_ROLE"
+    vault write -format=json -f auth/approle/role/"$VAULT_ROLE"/custom-secret-id secret_id="$VAULT_SECRET"
 }
+
 
 # pull the plugin if the directory doesn't exist
 if [ ! -d "$C4GH_TRANSIT_DIR" ]; then
@@ -50,4 +57,4 @@ go build -v -o vault/plugins/c4ghtransit c4ghtransit/cmd/c4ghtransit/main.go
 initVault 2>&1 &
 
 # start vault server in development mode
-VAULT_LOG_LEVEL=ERROR exec vault server -dev -dev-plugin-dir=vault/plugins -dev-root-token-id="devroot"
+VAULT_LOG_LEVEL=ERROR exec vault server -dev -dev-plugin-dir=vault/plugins -dev-root-token-id=${VAULT_DEV_ROOT_TOKEN_ID}
