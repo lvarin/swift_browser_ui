@@ -10,9 +10,8 @@
 
 
 
-<div style="border: 2px solid red; padding: 10px; background-color: #ffe6e6;">
-  <strong>⚠️ Notice:</strong> This repository is using a modified version that omits the Encryption & Decryption. The original swift-browser-ui can be found in https://github.com/CSCfi/swift-browser-ui
-</div>
+> **⚠️ Notice:** This repository is using a modified version that omits the Encryption & Decryption. The original swift-browser-ui can be found [here](https://github.com/CSCfi/swift-browser-ui).
+
 
 
 
