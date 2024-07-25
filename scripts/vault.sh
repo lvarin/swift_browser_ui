@@ -26,7 +26,7 @@ function initVault {
     export VAULT_ADDR=${VAULT_URL%/v1}
     # wait for vault to be running
     wget --no-verbose --retry-connrefused --waitretry=1 --tries 10 --timeout=3 --spider "${VAULT_URL}/sys/health?standbyok=true"
-    vault login token=${VAULT_DEV_ROOT_TOKEN_ID}
+    vault login token=${VAULT_TOKEN}
     vault auth enable approle
     vault secrets enable c4ghtransit
     vault policy write "$VAULT_ROLE" "$SWIFT_BROWSER_UI_DIR"/.github/config/vault_policy.hcl
@@ -57,4 +57,4 @@ go build -v -o vault/plugins/c4ghtransit c4ghtransit/cmd/c4ghtransit/main.go
 initVault 2>&1 &
 
 # start vault server in development mode
-VAULT_LOG_LEVEL=ERROR exec vault server -dev -dev-plugin-dir=vault/plugins -dev-root-token-id=${VAULT_DEV_ROOT_TOKEN_ID}
+VAULT_LOG_LEVEL=ERROR exec vault server -dev -dev-plugin-dir=vault/plugins -dev-root-token-id=${VAULT_TOKEN}
