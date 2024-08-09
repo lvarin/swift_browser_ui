@@ -9,7 +9,7 @@
 [![Documentation Status](https://readthedocs.org/projects/swift-browser-ui/badge/?version=latest)](https://swift-browser-ui.readthedocs.io/en/latest/?badge=latest)
 
 
-
+### Notice:
 > **⚠️ Notice:** This repository is using a modified version that omits the Encryption & Decryption. The original swift-browser-ui can be found [here](https://github.com/CSCfi/swift-browser-ui).
 
 
