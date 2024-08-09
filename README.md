@@ -10,7 +10,7 @@
 
 
 ### Notice:
-> **⚠️ Notice:** This repository is using a modified version that omits the Encryption & Decryption. The original swift-browser-ui can be found [here](https://github.com/CSCfi/swift-browser-ui).
+> **⚠️ Notice:** This repository is using a modified version that omits the Encryption & Decryption. The original swift-browser-ui can be found [in this repo](https://github.com/CSCfi/swift-browser-ui).
 
 
 
