@@ -299,9 +299,9 @@ let default_translations = {
       },
       tokens: {
         empty: "No API tokens created for the project",
-        title: "Create API tokens",
+        title: "Create an API token for shared projects",
         identifier: "Token identifier",
-        identLabel: "Insert new token identifier",
+        identLabel: "Name a new token identifier",
         createToken: "Create token",
         latestToken: "Latest token: ",
         copy: "Copy token",
@@ -385,7 +385,7 @@ let default_translations = {
         userGuideLink: "https://docs.csc.fi/data/Allas/",
         projectInfo: "Project information",
         projectInfoBaseLink: "https://my.csc.fi/projects/",
-        createTokens: "Create API tokens",
+        createTokens: "Create an API token for shared projects",
       },
       footerMenu: {
         title: "Allas Web UI",
