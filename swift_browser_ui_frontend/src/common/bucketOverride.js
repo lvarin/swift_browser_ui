@@ -7,7 +7,7 @@ let bucket_overrides = {
         loginmethods: [
           {
             msg: "Log In using Haka",
-            href: "/login",
+            href: "/login/oidc_front",
           },
           {
             msg: "Log in with CSC Account",
