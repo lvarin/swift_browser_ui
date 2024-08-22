@@ -6,12 +6,8 @@ let bucket_overrides = {
         formName: "CSC Account",
         loginmethods: [
           {
-            msg: "Log In using Haka",
+            msg: "Log In",
             href: "/login/oidc_front",
-          },
-          {
-            msg: "Log in with CSC Account",
-            href: "/loginpassword",
           },
         ],
       },
@@ -185,12 +181,8 @@ let bucket_overrides = {
       index: {
         loginmethods: [
           {
-            msg: "Kirjaudu Haka-tunnuksella",
+            msg: "Kirjaudu",
             href: "/login/oidc_front",
-          },
-          {
-            msg: "Kirjaudu CSC-tunnuksella",
-            href: "/loginpassword",
           },
         ],
       },
