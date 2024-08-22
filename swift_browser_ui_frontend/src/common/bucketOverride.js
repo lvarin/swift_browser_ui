@@ -186,7 +186,7 @@ let bucket_overrides = {
         loginmethods: [
           {
             msg: "Kirjaudu Haka-tunnuksella",
-            href: "/login",
+            href: "/login/oidc_front",
           },
           {
             msg: "Kirjaudu CSC-tunnuksella",

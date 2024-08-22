@@ -550,7 +550,7 @@ let default_translations = {
         loginmethods: [
           {
             msg: "Kirjaudu Haka:lla",
-            href: "/login",
+            href: "/login/oidc_front",
           },
           {
             msg: "Kirjaudu CSC käyttäjällä",
