@@ -11,12 +11,8 @@ let default_translations = {
         formName: "CSC Account",
         loginmethods: [
           {
-            msg: "Log In using Haka",
+            msg: "Log In",
             href: "/login/oidc_front",
-          },
-          {
-            msg: "Log in with CSC Account",
-            href: "/loginpassword",
           },
         ],
       },
@@ -549,12 +545,8 @@ let default_translations = {
         formName: "CSC Käyttäjä",
         loginmethods: [
           {
-            msg: "Kirjaudu Haka:lla",
+            msg: "Kirjaudu",
             href: "/login/oidc_front",
-          },
-          {
-            msg: "Kirjaudu CSC käyttäjällä",
-            href: "/loginpassword",
           },
         ],
       },
