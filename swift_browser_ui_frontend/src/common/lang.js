@@ -210,7 +210,9 @@ let default_translations = {
         warnWait: "Please wait for the download to finish.",
         warnTempFiles: "Opening temporary files or folders " +
           "(.crdownload, .crswap) may interrupt the process.",
-        error: "Download has failed. Please try again.",
+        error: "Download has failed. Please try again. On Firefox: "  +
+          "Service Worker might be down. Please refresh the page, wait a " +
+          "minute, and try again. Recommended browser for use: Chrome.",
         cancel: "Download cancelled",
       },
       upload: {
