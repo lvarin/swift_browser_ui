@@ -52,8 +52,8 @@ import {
   mdiTrayArrowDown,
   mdiPencilOutline,
   mdiDeleteOutline,
-  mdiFolder ,
-  mdiPail,
+  mdiFolder,
+  mdiFileOutline,
 } from "@mdi/js";
 
 export default {
@@ -130,9 +130,6 @@ export default {
     },
   },
   watch: {
-    "$store.getters.iconIndexnum"() {
-      this.setIconPath();
-    },
     prefix() {
       this.getPage();
     },
@@ -142,7 +139,6 @@ export default {
     },
   },
   created() {
-    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -161,12 +157,6 @@ export default {
       checkIfItemIsLastOnPage(this.paginationOptions);
   },
   methods: {
-    setIconPath() {
-      const icons = [mdiFolder, mdiPail];
-      const iconClass = icons[this.$store.getters.iconIndexnum];
-      this.iconPath = iconClass;
-      this.getPage();
-    },
     handlePopState(event) {
       // reset page to 1 after reversing a page
       if (event.type === "popstate") {
@@ -193,7 +183,7 @@ export default {
               params: {
                 href: "javascript:void(0)",
                 color: "dark-grey",
-                path: this.iconPath,
+                path: mdiFolder,
                 iconFill: "primary",
                 iconStyle: {
                   marginRight: "1rem",
@@ -202,7 +192,22 @@ export default {
                 onClick: () => this.changeFolder(name),
               },
             },
-          } : {}),
+          } : {
+            value: name,
+            component: {
+              tag: "c-link",
+              params: {
+                href: "javascript:void(0)",
+                color: "dark-grey",
+                path: mdiFileOutline,
+                iconFill: "primary",
+                iconStyle: {
+                  marginRight: "1rem",
+                  flexShrink: "0",
+                },
+              },
+            },
+          }),
         },
         size: {
           value: getHumanReadableSize(item.bytes, this.locale),

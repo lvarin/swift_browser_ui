@@ -32,7 +32,6 @@ import {
   mdiTrayArrowDown,
   mdiShareVariantOutline,
   mdiDotsHorizontal,
-  mdiFolder,
   mdiPail,
 } from "@mdi/js";
 import {
@@ -89,7 +88,6 @@ export default {
       sortBy: "name",
       sortDirection: "asc",
       abortController: null,
-      iconPath: "",
     };
   },
   computed: {
@@ -107,9 +105,6 @@ export default {
     },
   },
   watch: {
-    "$store.getters.iconIndexnum"() {
-      this.setIconPath();
-    },
     disablePagination() {
       this.getPage();
     },
@@ -137,7 +132,6 @@ export default {
     },
   },
   created() {
-    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -149,12 +143,6 @@ export default {
   },
   expose: ["toFirstPage"],
   methods: {
-    setIconPath() {
-      const icons = [mdiFolder, mdiPail];
-      const iconClass = icons[this.$store.getters.iconIndexnum];
-      this.iconPath = iconClass;
-      this.getPage();
-    },
     toFirstPage() {
       this.paginationOptions.currentPage = 1;
     },
@@ -217,7 +205,7 @@ export default {
                 params: {
                   href: "javascript:void(0)",
                   color: "dark-grey",
-                  path: this.iconPath,
+                  path: mdiPail,
                   iconFill: "primary",
                   iconStyle: {
                     marginRight: "1rem",
