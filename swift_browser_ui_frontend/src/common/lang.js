@@ -1,8 +1,6 @@
 // Ready translated locale messages
 
-import lang_overrides from "@/assets/lang_overrides";
 import bucket_overrides from "./bucketOverride";
-import { reactive } from "vue";
 
 let default_translations = {
   en: {
@@ -1081,11 +1079,7 @@ let default_translations = {
   },
 };
 
-// Create a deep copy of the original data
-let default_copy = JSON.parse(JSON.stringify(default_translations));
-
-let translations = reactive(default_translations);
-let overridesApplied = false;
+let translations = default_translations;
 
 function nestedJoin(dst, src) {
   // Join two objects with nested content overriding with the latter
@@ -1106,20 +1100,6 @@ function nestedJoin(dst, src) {
 }
 
 // Override keys according to lang_overrides
-translations = nestedJoin(translations, lang_overrides);
-
-// Function to apply overrides
-function applyBucketOverrides() {
-  translations = nestedJoin(translations, bucket_overrides);
-  overridesApplied = true;
-}
-
-// Function to remove overrides and revert to default
-function removeBucketOverrides() {
-  translations = nestedJoin(translations, default_copy);
-  overridesApplied = false;
-}
-
-export { applyBucketOverrides, removeBucketOverrides, overridesApplied};
+translations = nestedJoin(translations, bucket_overrides);
 
 export default translations;

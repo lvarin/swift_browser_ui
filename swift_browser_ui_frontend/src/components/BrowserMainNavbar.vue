@@ -90,7 +90,6 @@ import {
   disableFocusOutsideModal,
 } from "@/common/keyboardNavigation";
 import { mdiOpenInNew } from "@mdi/js";
-import { toggleBucketOverrides } from "@/common/i18n";
 
 export default {
   name: "BrowserMainNavbar",
@@ -104,7 +103,6 @@ export default {
       currentLang: "",
       extLinkIcon: mdiOpenInNew,
       projectInfoLink: "",
-      iconIndexnum: 0,
     };
   },
   computed: {
@@ -139,21 +137,6 @@ export default {
     setNavigationMenu() {
       this.navigationMenuItems = [];
       const menuArr = [
-        {
-          title: this.iconIndexnum === 0 ?
-            this.$t("message.containerFolder")
-            : this.$t("message.containerBucket"),
-          icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-pail",
-          testid: "bucket-selector",
-          subs: [
-            {
-              title: this.iconIndexnum === 0 ?
-                this.$t("message.containerBucket")
-                : this.$t("message.containerFolder"),
-              action: () => this.toggleBucket(),
-            },
-          ],
-        },
         {
           title: this.currentLang,
           icon: "mdi-web",
@@ -238,13 +221,6 @@ export default {
           .getElementsByTagName("input")[0];
         tokenInput.focus();
       }, 300);
-    },
-    toggleBucket() {
-      this.iconIndexnum = this.iconIndexnum === 0 ? 1 : 0;
-      toggleBucketOverrides();
-      this.$store.dispatch("updateIconIndexnum", this.iconIndexnum);
-      this.setNavigationMenu();
-
     },
   },
 };
