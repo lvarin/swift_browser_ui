@@ -12,6 +12,7 @@ import aiohttp.client
 import aiohttp.web
 import certifi
 import msgpack
+from aiohttp import ClientTimeout
 
 import swift_browser_ui.common.vault_client as vault_client
 import swift_browser_ui.upload.common as common
@@ -252,7 +253,7 @@ class FileUpload:
             ),
             data=self.slice_segment(order),
             headers=headers,
-            timeout=UPL_TIMEOUT,
+            timeout=ClientTimeout(total=UPL_TIMEOUT),
             ssl=ssl_context,
         ) as resp:
             LOGGER.info(f"Segment {order} finished with status {resp.status}.")

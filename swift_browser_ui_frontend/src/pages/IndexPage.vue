@@ -91,6 +91,7 @@
             </c-card-content>
             <c-card-actions v-if="unauth">
               <c-button
+                data-testid="return-to-login"
                 href="/"
                 target="_self"
               >

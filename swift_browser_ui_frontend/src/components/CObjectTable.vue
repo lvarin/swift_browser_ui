@@ -4,6 +4,7 @@
     because csc-ui wont recognise it otherwise. -->
     <c-data-table
       id="obj-table"
+      data-testid="object-table"
       :data.prop="objects"
       :headers.prop="hideTags ?
         headers.filter(header => header.key !== 'tags'): headers"
@@ -245,13 +246,14 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "download-object",
                   text: true,
                   size: "small",
                   title: "Download",
                   path: mdiTrayArrowDown,
-                  onClick: () => {
+                  onClick: ({ event }) => {
                     item.name.match(".c4gh") || item?.subfolder
-                      ? this.beginDownload(item)
+                      ? this.beginDownload(item, event.isTrusted)
                       : this.navDownload(item.url);
                   },
                   disabled: this.owner != undefined &&
@@ -264,6 +266,7 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "edit-object-tags",
                   text: true,
                   size: "small",
                   title: "Edit tags",
@@ -285,6 +288,7 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "delete-object",
                   text: true,
                   size: "small",
                   title: "Delete object",
@@ -427,7 +431,12 @@ export default {
         this.$emit("selected-rows", event.detail);
       }
     },
-    beginDownload(object) {
+    beginDownload(object, eventTrusted) {
+      //add test param to test direct downloads
+      //by using origin private file system (OPFS)
+      //automated testing creates untrusted events
+      const test = eventTrusted === undefined ? false: !eventTrusted;
+
       if (object?.subfolder) {
         const subfolderFiles = this
           .objs
@@ -440,6 +449,7 @@ export default {
           this.$route.params.container,
           subfolderFiles,
           this.$route.params.owner ? this.$route.params.owner : "",
+          test,
         ).then(() => {
           if (DEV) console.log(`Started downloading subfolder ${object.name}`);
         }).catch(() => {
@@ -450,6 +460,7 @@ export default {
           this.$route.params.container,
           [object.name],
           this.$route.params.owner ? this.$route.params.owner : "",
+          test,
         ).then(() => {
           if (DEV) console.log(`Started downloading object ${object.name}`);
         }).catch(() => {
