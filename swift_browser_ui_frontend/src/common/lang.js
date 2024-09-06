@@ -1,8 +1,6 @@
 // Ready translated locale messages
 
-import lang_overrides from "@/assets/lang_overrides";
 import bucket_overrides from "./bucketOverride";
-import { reactive } from "vue";
 
 let default_translations = {
   en: {
@@ -11,12 +9,8 @@ let default_translations = {
         formName: "CSC Account",
         loginmethods: [
           {
-            msg: "Log In using Haka",
-            href: "/login",
-          },
-          {
-            msg: "Log in with CSC Account",
-            href: "/loginpassword",
+            msg: "Log In",
+            href: "/login/oidc_front",
           },
         ],
       },
@@ -216,7 +210,9 @@ let default_translations = {
         warnWait: "Please wait for the download to finish.",
         warnTempFiles: "Opening temporary files or folders " +
           "(.crdownload, .crswap) may interrupt the process.",
-        error: "Download has failed. Please try again.",
+        error: "Download has failed. Please try again. On Firefox: "  +
+          "Service Worker might be down. Please refresh the page, wait a " +
+          "minute, and try again. Recommended browser for use: Chrome.",
         cancel: "Download cancelled",
       },
       upload: {
@@ -299,9 +295,9 @@ let default_translations = {
       },
       tokens: {
         empty: "No API tokens created for the project",
-        title: "Create API tokens",
+        title: "Create an API token for shared projects",
         identifier: "Token identifier",
-        identLabel: "Insert new token identifier",
+        identLabel: "Name a new token identifier",
         createToken: "Create token",
         latestToken: "Latest token: ",
         copy: "Copy token",
@@ -385,17 +381,17 @@ let default_translations = {
         userGuideLink: "https://docs.csc.fi/data/Allas/",
         projectInfo: "Project information",
         projectInfoBaseLink: "https://my.csc.fi/projects/",
-        createTokens: "Create API tokens",
+        createTokens: "Create an API token for shared projects",
       },
       footerMenu: {
         title: "Allas Web UI",
-        serviceProvider: "Service provider",
-        serviceProviderLink: "#",
+        serviceProvider: "CSC – IT Center for Science Ltd.",
+        serviceProviderLink: "https://csc.fi/",
         menuItems: [
-          { item: "Item 1", link: "#" },
-          { item: "Item 2", link: "/accessibility" },
-          { item: "Item 3", link: "#" },
-          { item: "Item 4", link: "#" },
+          { item: "Service Description", link: "https://research.csc.fi/-/allas" },
+          { item: "Accessibility", link: "/accessibility" },
+          { item: "Privacy", link: "https://csc.fi/en/security-privacy-data-policy-and-open-source-policy/privacy/" },
+          { item: "Documentations", link: "https://docs.csc.fi/data/Allas/" },
         ],
       },
     },
@@ -549,12 +545,8 @@ let default_translations = {
         formName: "CSC Käyttäjä",
         loginmethods: [
           {
-            msg: "Kirjaudu Haka:lla",
-            href: "/login",
-          },
-          {
-            msg: "Kirjaudu CSC käyttäjällä",
-            href: "/loginpassword",
+            msg: "Kirjaudu",
+            href: "/login/oidc_front",
           },
         ],
       },
@@ -930,13 +922,13 @@ let default_translations = {
       },
       footerMenu: {
         title: "Allas Web UI",
-        serviceProvider: "Palveluntarjoaja",
-        serviceProviderLink: "#",
+        serviceProvider: "CSC – Tieteen tietotekniikan keskus Oy",
+        serviceProviderLink: "https://csc.fi/",
         menuItems: [
-          { item: "Menu 1", link: "#" },
-          { item: "Menu 2", link: "/accessibility" },
-          { item: "Menu 3", link: "#" },
-          { item: "Menu 4", link: "#" },
+          { item: "Palvelun kuvaus", link: "https://research.csc.fi/-/allas" },
+          { item: "Saavutettavuus", link: "/accessibility" },
+          { item: "Tietosuoja", link: "https://csc.fi/tietoturva-tietosuoja-datapolitiikka-ja-avoin-lahdekoodi/tietosuoja/#cscn-asiakas-ja-sidosryhmarekisterin-tietosuojaseloste" },
+          { item: "asiakirjat", link: "https://docs.csc.fi/data/Allas/" },
         ],
       },
     },
@@ -1089,11 +1081,7 @@ let default_translations = {
   },
 };
 
-// Create a deep copy of the original data
-let default_copy = JSON.parse(JSON.stringify(default_translations));
-
-let translations = reactive(default_translations);
-let overridesApplied = false;
+let translations = default_translations;
 
 function nestedJoin(dst, src) {
   // Join two objects with nested content overriding with the latter
@@ -1114,20 +1102,6 @@ function nestedJoin(dst, src) {
 }
 
 // Override keys according to lang_overrides
-translations = nestedJoin(translations, lang_overrides);
-
-// Function to apply overrides
-function applyBucketOverrides() {
-  translations = nestedJoin(translations, bucket_overrides);
-  overridesApplied = true;
-}
-
-// Function to remove overrides and revert to default
-function removeBucketOverrides() {
-  translations = nestedJoin(translations, default_copy);
-  overridesApplied = false;
-}
-
-export { applyBucketOverrides, removeBucketOverrides, overridesApplied};
+translations = nestedJoin(translations, bucket_overrides);
 
 export default translations;

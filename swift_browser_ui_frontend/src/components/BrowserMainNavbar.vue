@@ -49,6 +49,7 @@
       <c-sidenavigationitem
         v-for="item of navigationMenuItems"
         :key="item.title"
+        :data-testid="item.testid + '-mobile'"
       >
         <div slot="main">
           <span :class="'mdi ' + item.icon" />
@@ -64,7 +65,7 @@
             :key="subItem.title"
             :href="subItem.href"
             :target="subItem.href && '_blank'"
-            :data-testid="subItem.testid"
+            :data-testid="subItem.testid + '-mobile'"
             @click="() => {
               (subItem.route || subItem.href) && handleItemRoute(subItem);
               subItem.action && subItem.action();
@@ -89,7 +90,6 @@ import {
   disableFocusOutsideModal,
 } from "@/common/keyboardNavigation";
 import { mdiOpenInNew } from "@mdi/js";
-import { toggleBucketOverrides } from "@/common/i18n";
 
 export default {
   name: "BrowserMainNavbar",
@@ -103,7 +103,6 @@ export default {
       currentLang: "",
       extLinkIcon: mdiOpenInNew,
       projectInfoLink: "",
-      iconIndexnum: 0,
     };
   },
   computed: {
@@ -138,21 +137,6 @@ export default {
     setNavigationMenu() {
       this.navigationMenuItems = [];
       const menuArr = [
-        {
-          title: this.iconIndexnum === 0 ?
-            this.$t("message.containerFolder")
-            : this.$t("message.containerBucket"),
-          icon: this.iconIndexnum === 0 ? "mdi-folder" : "mdi-pail",
-          testid: "bucket-selector",
-          subs: [
-            {
-              title: this.iconIndexnum === 0 ?
-                this.$t("message.containerBucket")
-                : this.$t("message.containerFolder"),
-              action: () => this.toggleBucket(),
-            },
-          ],
-        },
         {
           title: this.currentLang,
           icon: "mdi-web",
@@ -238,13 +222,6 @@ export default {
         tokenInput.focus();
       }, 300);
     },
-    toggleBucket() {
-      this.iconIndexnum = this.iconIndexnum === 0 ? 1 : 0;
-      toggleBucketOverrides();
-      this.$store.dispatch("updateIconIndexnum", this.iconIndexnum);
-      this.setNavigationMenu();
-
-    },
   },
 };
 </script>
@@ -284,7 +261,7 @@ c-menu {
 }
 
 @media screen and (min-width: 768px) {
-  c-navigationbutton {
+  c-navigationbutton, c-sidenavigation {
     display: none;
   }
 }

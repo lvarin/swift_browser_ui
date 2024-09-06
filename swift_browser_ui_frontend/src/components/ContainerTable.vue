@@ -3,6 +3,7 @@
   because csc-ui wont recognise it otherwise. -->
   <c-data-table
     id="container-table"
+    data-testid="container-table"
     :data.prop="containers"
     :headers.prop="hideTags ?
       headers.filter(header => header.key !== 'tags'): headers"
@@ -32,7 +33,6 @@ import {
   mdiTrayArrowDown,
   mdiShareVariantOutline,
   mdiDotsHorizontal,
-  mdiFolder,
   mdiPail,
 } from "@mdi/js";
 import {
@@ -89,7 +89,6 @@ export default {
       sortBy: "name",
       sortDirection: "asc",
       abortController: null,
-      iconPath: "",
     };
   },
   computed: {
@@ -107,9 +106,6 @@ export default {
     },
   },
   watch: {
-    "$store.getters.iconIndexnum"() {
-      this.setIconPath();
-    },
     disablePagination() {
       this.getPage();
     },
@@ -137,7 +133,6 @@ export default {
     },
   },
   created() {
-    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -149,12 +144,6 @@ export default {
   },
   expose: ["toFirstPage"],
   methods: {
-    setIconPath() {
-      const icons = [mdiFolder, mdiPail];
-      const iconClass = icons[this.$store.getters.iconIndexnum];
-      this.iconPath = iconClass;
-      this.getPage();
-    },
     toFirstPage() {
       this.paginationOptions.currentPage = 1;
     },
@@ -217,7 +206,7 @@ export default {
                 params: {
                   href: "javascript:void(0)",
                   color: "dark-grey",
-                  path: this.iconPath,
+                  path: mdiPail,
                   iconFill: "primary",
                   iconStyle: {
                     marginRight: "1rem",
@@ -288,13 +277,15 @@ export default {
                   component: {
                     tag: "c-button",
                     params: {
+                      testid: "download-container",
                       text: true,
                       size: "small",
                       title: this.$t("message.download.download"),
-                      onClick: () => {
+                      onClick: ({ event }) => {
                         this.beginDownload(
                           item.name,
                           item.owner ? item.owner : "",
+                          event.isTrusted,
                         );
                       },
                       target: "_blank",
@@ -310,6 +301,7 @@ export default {
                   component: {
                     tag: "c-button",
                     params: {
+                      testid: "share-container",
                       text: true,
                       size: "small",
                       title: this.$t("message.share.share"),
@@ -522,11 +514,17 @@ export default {
             this.paginationOptions.itemCount - 1,
         });
     },
-    beginDownload(container, owner) {
+    beginDownload(container, owner, eventTrusted) {
+      //add test param to test direct downloads
+      //by using origin private file system (OPFS)
+      //automated testing creates untrusted events
+      const test = eventTrusted === undefined ? false : !eventTrusted;
+
       this.$store.state.socket.addDownload(
         container,
         [],
         owner,
+        test,
       ).then(() => {
         if (DEV) console.log(`Started downloading all objects from container ${container}`);
       }).catch(() => {

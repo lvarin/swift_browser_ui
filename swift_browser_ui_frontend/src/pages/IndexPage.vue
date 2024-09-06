@@ -14,7 +14,6 @@
               <c-login-card-content>
                 <p>{{ $t('message.program_description') }}</p>
               </c-login-card-content>
-              <c-spacer />
               <c-login-card-actions>
                 <c-button
                   v-for="item in $tm('message.index.loginmethods')"
@@ -92,6 +91,7 @@
             </c-card-content>
             <c-card-actions v-if="unauth">
               <c-button
+                data-testid="return-to-login"
                 href="/"
                 target="_self"
               >

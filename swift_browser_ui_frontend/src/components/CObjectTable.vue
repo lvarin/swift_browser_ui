@@ -4,6 +4,7 @@
     because csc-ui wont recognise it otherwise. -->
     <c-data-table
       id="obj-table"
+      data-testid="object-table"
       :data.prop="objects"
       :headers.prop="hideTags ?
         headers.filter(header => header.key !== 'tags'): headers"
@@ -52,8 +53,8 @@ import {
   mdiTrayArrowDown,
   mdiPencilOutline,
   mdiDeleteOutline,
-  mdiFolder ,
-  mdiPail,
+  mdiFolder,
+  mdiFileOutline,
 } from "@mdi/js";
 
 export default {
@@ -130,9 +131,6 @@ export default {
     },
   },
   watch: {
-    "$store.getters.iconIndexnum"() {
-      this.setIconPath();
-    },
     prefix() {
       this.getPage();
     },
@@ -142,7 +140,6 @@ export default {
     },
   },
   created() {
-    this.setIconPath();
     this.setHeaders();
     this.setPagination();
   },
@@ -161,12 +158,6 @@ export default {
       checkIfItemIsLastOnPage(this.paginationOptions);
   },
   methods: {
-    setIconPath() {
-      const icons = [mdiFolder, mdiPail];
-      const iconClass = icons[this.$store.getters.iconIndexnum];
-      this.iconPath = iconClass;
-      this.getPage();
-    },
     handlePopState(event) {
       // reset page to 1 after reversing a page
       if (event.type === "popstate") {
@@ -193,7 +184,7 @@ export default {
               params: {
                 href: "javascript:void(0)",
                 color: "dark-grey",
-                path: this.iconPath,
+                path: mdiFolder,
                 iconFill: "primary",
                 iconStyle: {
                   marginRight: "1rem",
@@ -202,7 +193,22 @@ export default {
                 onClick: () => this.changeFolder(name),
               },
             },
-          } : {}),
+          } : {
+            value: name,
+            component: {
+              tag: "c-link",
+              params: {
+                href: "javascript:void(0)",
+                color: "dark-grey",
+                path: mdiFileOutline,
+                iconFill: "primary",
+                iconStyle: {
+                  marginRight: "1rem",
+                  flexShrink: "0",
+                },
+              },
+            },
+          }),
         },
         size: {
           value: getHumanReadableSize(item.bytes, this.locale),
@@ -240,13 +246,14 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "download-object",
                   text: true,
                   size: "small",
                   title: "Download",
                   path: mdiTrayArrowDown,
-                  onClick: () => {
+                  onClick: ({ event }) => {
                     item.name.match(".c4gh") || item?.subfolder
-                      ? this.beginDownload(item)
+                      ? this.beginDownload(item, event.isTrusted)
                       : this.navDownload(item.url);
                   },
                   disabled: this.owner != undefined &&
@@ -259,6 +266,7 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "edit-object-tags",
                   text: true,
                   size: "small",
                   title: "Edit tags",
@@ -280,6 +288,7 @@ export default {
               component: {
                 tag: "c-button",
                 params: {
+                  testid: "delete-object",
                   text: true,
                   size: "small",
                   title: "Delete object",
@@ -422,7 +431,12 @@ export default {
         this.$emit("selected-rows", event.detail);
       }
     },
-    beginDownload(object) {
+    beginDownload(object, eventTrusted) {
+      //add test param to test direct downloads
+      //by using origin private file system (OPFS)
+      //automated testing creates untrusted events
+      const test = eventTrusted === undefined ? false: !eventTrusted;
+
       if (object?.subfolder) {
         const subfolderFiles = this
           .objs
@@ -435,6 +449,7 @@ export default {
           this.$route.params.container,
           subfolderFiles,
           this.$route.params.owner ? this.$route.params.owner : "",
+          test,
         ).then(() => {
           if (DEV) console.log(`Started downloading subfolder ${object.name}`);
         }).catch(() => {
@@ -445,6 +460,7 @@ export default {
           this.$route.params.container,
           [object.name],
           this.$route.params.owner ? this.$route.params.owner : "",
+          test,
         ).then(() => {
           if (DEV) console.log(`Started downloading object ${object.name}`);
         }).catch(() => {

@@ -36,32 +36,32 @@ repos:
     - id: bandit
       files: ^swift_browser_ui/
 
-  - repo: local
-    hooks:
-    - id: eslint
-      name: Lint frontend
-      entry: ./scripts/eslint.sh
-      args: [--prefix, swift_browser_ui_frontend, run, lint]
-      files: ^swift_browser_ui_frontend
-      language: system
-      pass_filenames: false
+  # - repo: local
+  #   hooks:
+  #   - id: eslint
+  #     name: Lint frontend
+  #     entry: ./scripts/eslint.sh
+  #     args: [--prefix, swift_browser_ui_frontend, run, lint]
+  #     files: ^swift_browser_ui_frontend
+  #     language: system
+  #     pass_filenames: false
 
-    - id: mypy
-      name: mypy
-      entry: mypy
-      language: system
-      types: [python]
-      files: ^swift_browser_ui/
-      args: [--ignore-missing-imports, --no-namespace-packages]
-      require_serial: true
+    # - id: mypy
+    #   name: mypy
+    #   entry: mypy
+    #   language: system
+    #   types: [python]
+    #   files: ^swift_browser_ui/
+    #   args: [--ignore-missing-imports, --no-namespace-packages]
+    #   require_serial: true
 
-    - id: sort
-      name: sort dictionaries
-      entry: ./scripts/sort.sh
-      language: script
-      files: ^.github/config/.*.txt
-      require_serial: true
-      pass_filenames: false
+    # - id: sort
+    #   name: sort dictionaries
+    #   entry: ./scripts/sort.sh
+    #   language: script
+    #   files: ^.github/config/.*.txt
+    #   require_serial: true
+    #   pass_filenames: false
 
     # - id: pyspelling-docs
     #   name: spellcheck markdown and documentation

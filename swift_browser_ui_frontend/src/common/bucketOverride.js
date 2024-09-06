@@ -6,12 +6,8 @@ let bucket_overrides = {
         formName: "CSC Account",
         loginmethods: [
           {
-            msg: "Log In using Haka",
-            href: "/login",
-          },
-          {
-            msg: "Log in with CSC Account",
-            href: "/loginpassword",
+            msg: "Log In",
+            href: "/login/oidc_front",
           },
         ],
       },
@@ -185,12 +181,8 @@ let bucket_overrides = {
       index: {
         loginmethods: [
           {
-            msg: "Kirjaudu Haka-tunnuksella",
-            href: "/login",
-          },
-          {
-            msg: "Kirjaudu CSC-tunnuksella",
-            href: "/loginpassword",
+            msg: "Kirjaudu",
+            href: "/login/oidc_front",
           },
         ],
       },
@@ -275,8 +267,8 @@ let bucket_overrides = {
         shared_successfully: "Ämpärin jakaminen onnistui.",
         shared_table_title: "Tämä ämpäri on jaettu",
         fail_duplicate: "Ämpäri on jo jaettu kyseiselle projektille.",
-        emptyContainer: "Tämä ämpäri on tyhjä.",
       },
+      emptyContainer: "Tämä ämpäri on tyhjä.",
       emptyProject: {
         all: "Tässä projektissa ei ole ämpäreitä.",
         sharedFrom: "Et ole jakanut yhtään ämpäriä.",

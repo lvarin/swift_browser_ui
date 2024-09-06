@@ -5,7 +5,7 @@
     <BreadcrumbNav @breadcrumbClicked="breadcrumbClickHandler" />
     <div class="folder-info">
       <div class="folder-info-heading">
-        <i :class="['mdi', dynamicIconClass]" />
+        <i :class="['mdi', 'mdi-pail-outline']" />
         <span>{{ containerName }}</span>
       </div>
       <ul class="folder-details">
@@ -16,6 +16,7 @@
             v-show="!owner"
             underline
             tabindex="0"
+            data-testid="edit-sharing"
             @click="toggleShareModal"
             @keydown.enter="toggleShareModal"
           >
@@ -80,6 +81,7 @@
           v-for="button in selectionActionButtons"
           :id="`${button.label.toLowerCase()}-selections`"
           :key="button.label"
+          :data-testid="button.testid"
           inverted
           text
           @click="button.action"
@@ -211,11 +213,6 @@ export default {
     },
     shareModal() {
       return this.$store.state.openShareModal;
-    },
-    dynamicIconClass() {
-      const icons = ["mdi-folder-outline", "mdi-pail-outline"];
-      this.getFolderSharedStatus();
-      return icons[this.$store.getters.iconIndexnum];
     },
   },
   watch: {
@@ -607,11 +604,13 @@ export default {
         {
           label: this.$t("message.table.clearSelected"),
           icon: "mdi-refresh",
+          testid: "clear-checkboxes",
           action: () => this.clearSelections(),
         },
         {
           label: this.$t("message.table.deleteSelected"),
           icon: "mdi-trash-can-outline",
+          testid: "delete-checked-files",
           action: () => {
             this.onOpenDeleteModal(this.checkedRows);
             const deleteSelectionsBtn = document
