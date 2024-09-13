@@ -344,103 +344,16 @@ As can be seen in the picture below the "Advanced excryption options" are not lo
             </c-accordion-item>
    ```
 
-### Folder/Bucket Toggle Feature
+### Buckets instead of Folders, Added Bucket icon and File icon
 
-Created a feature that toggles the wording between Folders & Files to Buckets & Objects as can be seen in the picture.
-
-![Screenshot from 2024-06-19 11-02-58](https://github.com/DeRuina/swift_browser_ui/assets/81315494/9e66ef94-10d6-4307-b0c1-e1de731f7cbc)
-
-
-Chnages were made in these files:
+Changes were made in these files:
 
 1. **`$REPO/swift_browser_ui_frontend/src/common/bucketOverride.js` File Created**: All the necessary wording that will override the `lang.js` file when the toggle is pressed.
 
-2. **Changes in `$REPO/swift_browser_ui_frontend/src/common/i18n.js`**: This function was added:
-```js
-// Function to toggle language overrides
-export function toggleBucketOverrides() {
-  if (!overridesApplied) {
-    applyBucketOverrides();
-  } else {
-    removeBucketOverrides();
-  }
-}
-```
+2. **Changes in `$REPO/swift_browser_ui_frontend/src/components/BrowserMainNavbar.vue`**: Root icons are buckets, if the bucket is full there will be folder and file icons.
 
-3. **Changes in `$REPO/swift_browser_ui_frontend/src/common/lang.js`**:
-- The current wording to resemble Allas Web UI without encryption and decryption were changed.
-- Made the original tranlations `reactive` to work with the toggle and applied these functions:
-```js
+3. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ContainerTable.vue`**:  Root icons are buckets, if the bucket is full there will be folder and file icons.
 
-// Create a deep copy of the original data
-let default_copy = JSON.parse(JSON.stringify(default_translations));
+4. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ObjectTable.vue`**:  Root icons are buckets, if the bucket is full there will be folder and file icons.
 
-let translations = reactive(default_translations);
-let overridesApplied = false;
-
-function nestedJoin(dst, src) {
-  // Join two objects with nested content overriding with the latter
-  let to_assign = [];
-  for (let [key, value] of Object.entries(src)) {
-    if (typeof value == "object") {
-      if (key in dst) {
-        to_assign.push([key, nestedJoin(dst[key], src[key])]);
-      } else {
-        to_assign.push([key, src[key]]);
-      }
-    } else {
-      to_assign.push([key, value]);
-    }
-  }
-  let ret = Object.assign(dst, Object.fromEntries(to_assign));
-  return ret;
-}
-
-// Override keys according to lang_overrides
-translations = nestedJoin(translations, lang_overrides);
-
-// Function to apply overrides
-function applyBucketOverrides() {
-  translations = nestedJoin(translations, bucket_overrides);
-  overridesApplied = true;
-}
-
-// Function to remove overrides and revert to default
-function removeBucketOverrides() {
-  translations = nestedJoin(translations, default_copy);
-  overridesApplied = false;
-}
-
-export { applyBucketOverrides, removeBucketOverrides, overridesApplied};
-
-export default translations;
-```
-
-4. **Changes in `$REPO/swift_browser_ui_frontend/src/common/store.js`**:
-- Created `iconIndexnum` variable for the toggle feature.
-- Created associated `mutations:`
-```js
-UPDATE_ICON_INDEXNUM(state, payload) {
-      state.iconIndexnum = payload;
-    },
-```
-- Created associated `actions:`
-```js
-updateIconIndexnum: function ({ commit }, payload) {
-      commit("UPDATE_ICON_INDEXNUM", payload);
-    },
-```
-- Created associated `getters:`
-```js
- getters: {
-    iconIndexnum: state => state.iconIndexnum,
-  },
-```
-
-5. **Changes in `$REPO/swift_browser_ui_frontend/src/components/BrowserMainNavbar.vue`**: Added the toggle feature to switch between Folders & Files to Buckets & Objects to the `menuArr` and added the `toggleBucket()` function to respond to the click. Icon switching added as well.
-
-6. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ContainerTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
-
-7. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ObjectTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
-
-8. **Changes in `$REPO/swift_browser_ui_frontend/src/components/CObjectTable.vue`**: Changed the icon to be responsive to switch to the associated toggle.
+5. **Changes in `$REPO/swift_browser_ui_frontend/src/components/CObjectTable.vue`**: Root icons are buckets, if the bucket is full there will be folder and file icons.
