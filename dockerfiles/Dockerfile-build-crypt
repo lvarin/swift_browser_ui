@@ -4,6 +4,9 @@ FROM docker.io/node:18-alpine3.17 AS WEBPACK_WASM_PREPROCESS
 RUN --mount=type=cache,target=/var/cache/apk/ \
     apk add git python3
 
+# local modified csc-ui
+COPY csc-ui /root/swift-browser-ui/csc-ui
+
 COPY swift_browser_ui_frontend/package.json /root/swift-browser-ui/swift_browser_ui_frontend/package.json
 COPY swift_browser_ui_frontend/pnpm-lock.yaml /root/swift-browser-ui/swift_browser_ui_frontend/pnpm-lock.yaml
 
@@ -29,6 +32,10 @@ RUN bash /bin/build_wasm.sh all
 FROM docker.io/node:18-alpine3.17 as FRONTEND
 
 ARG OIDC_ENABLED
+
+# local modified csc-ui
+COPY csc-ui /root/swift_ui/csc-ui
+
 
 COPY swift_browser_ui_frontend/package.json /root/swift_ui/swift_browser_ui_frontend/package.json
 COPY swift_browser_ui_frontend/pnpm-lock.yaml /root/swift_ui/swift_browser_ui_frontend/pnpm-lock.yaml
