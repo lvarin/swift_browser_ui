@@ -357,3 +357,11 @@ Changes were made in these files:
 4. **Changes in `$REPO/swift_browser_ui_frontend/src/components/ObjectTable.vue`**:  Root icons are buckets, if the bucket is full there will be folder and file icons.
 
 5. **Changes in `$REPO/swift_browser_ui_frontend/src/components/CObjectTable.vue`**: Root icons are buckets, if the bucket is full there will be folder and file icons.
+
+### Own local npm package for color chnage (Dark blue)
+
+1. **csc-ui local npm package added**
+
+2. **`package.json` change**:  path the the local package
+
+3. **`dockerfiles/Dockerfile-build-crypt` Change**: copies of the local `csc-ui` added
