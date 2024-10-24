@@ -16,7 +16,7 @@ import DeleteModal from "@/components/DeleteModal.vue";
 import TokenModal from "@/components/TokenModal.vue";
 
 // CSC UI things
-import { applyPolyfills, defineCustomElements } from "csc-ui/dist/loader";
+import { applyPolyfills, defineCustomElements } from "allas-ui/dist/loader";
 import { vControl } from "@/common/csc-ui-vue-directive";
 
 // Project JS functions

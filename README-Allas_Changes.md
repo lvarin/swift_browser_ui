@@ -362,6 +362,6 @@ Changes were made in these files:
 
 1. **csc-ui local npm package added**
 
-2. **`package.json` change**:  path the the local package
+2. **`package.json` change**: using modified npm package - https://www.npmjs.com/package/allas-ui?activeTab=readme
 
 3. **`dockerfiles/Dockerfile-build-crypt` Change**: copies of the local `csc-ui` added

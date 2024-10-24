@@ -9,7 +9,7 @@ import VueI18n from "vue-i18n";
 import translations from "@/common/lang";
 
 import cModel from "@/common/csc-ui.js";
-import { applyPolyfills, defineCustomElements } from "csc-ui/dist/loader";
+import { applyPolyfills, defineCustomElements } from "allas-ui/dist/loader";
 
 describe("UploadNotification", () => {
   const localVue = createLocalVue();
