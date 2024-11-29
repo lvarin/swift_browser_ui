@@ -7,14 +7,25 @@ and this project adheres to [Calendar Versioning](https://calver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- change end-to-end test container.cy.js
+
+## [2024.10.2] - 2024-10-30
+
 ### Added
 
 - make the tempurl digest algorithm configurable
 
 ### Changed
 
+- Dependency updates
 - (admins) tempurl digest algorithm can now be configured if necessary
 - default to `sha1` instead of `sha256` when signing tempurls
+
+### Removed
+
+- Mentions of older Python versions
 
 ## [2024.10.1] - 2024-10-08
 
@@ -494,7 +505,9 @@ and this project adheres to [Calendar Versioning](https://calver.org/).
 - GH (GH #493) redesign upload UI
   - removed vue-material-design-icons
 
-[unreleased]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.10.0...HEAD
+[Unreleased]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.10.2...HEAD
+[2024.10.2]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.10.1...2024.10.2
+[2024.10.1]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.10.0...2024.10.1
 [2024.10.0]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.8.0...2024.10.0
 [2024.8.0]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.6.1...2024.8.0
 [2024.6.1]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.6.0...2024.6.1
@@ -505,7 +518,3 @@ and this project adheres to [Calendar Versioning](https://calver.org/).
 [2024.02.0]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/-/compare/2024.01.0...2024.02.0
 [2024.01.0]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/-/compare/3.0.0...2024.01.0
 [2023.12.0]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/-/compare/v2.0.0...3.0.0
-
-
-[Unreleased]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/compare/2024.10.1...HEAD
-[2024.10.1]: https://gitlab.ci.csc.fi/sds-dev/sd-connect/swift-browser-ui/-/releases/2024.10.1
