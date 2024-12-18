@@ -9,6 +9,8 @@ import typing
 import urllib.parse
 from datetime import datetime
 
+from json.decoder import JSONDecodeError
+
 import aiohttp.web
 import aiohttp_session
 import certifi
@@ -95,6 +97,11 @@ async def swift_list_containers(
         raise aiohttp.web.HTTPForbidden(
             reason="Account does not have access to the project."
         )
+    except JSONDecodeError:
+        raise aiohttp.web.HTTPInternaServerError(
+            reason=chunk
+        )
+
 
 
 async def _check_last_modified(
